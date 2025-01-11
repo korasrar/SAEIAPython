@@ -9,10 +9,11 @@ Dernière SAE du semestre 1 qui porte sur la création d'une "IA" en python
 - Clément ()
 - Morad ()
 
-![ReiAyanami](https://github.com/korasrar/Work/blob/main/img/reigif2.gif)
-
 ## Git Glone 
 
 ```bash
 git clone https://github.com/korasrar/SAEIAPython
 ```
+
+
+![ReiAyanami](https://github.com/korasrar/Work/blob/main/img/reigif2.gif)
