@@ -116,7 +116,7 @@ def ajouter_points(serpent:dict,nb_points:int):
     ...
 
 def set_liste_pos(serpent:dict, tete:list):
-    """initialise la liste des positionsd'un serpent
+    """initialise la liste des positionsb d'un serpent
 
     Args:
         serpent (dict): le serpent considéré
@@ -125,7 +125,7 @@ def set_liste_pos(serpent:dict, tete:list):
     ...
 
 def set_derniere_direction(serpent:dict, direction:str):
-    """Met à jout la dernière direction utilisée par le serpent (utile pour l'affichage)
+    """Met à jour la dernière direction utilisée par le serpent (utile pour l'affichage)
 
     Args:
         serpent (dict): le serpent considéré
