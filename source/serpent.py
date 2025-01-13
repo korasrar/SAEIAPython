@@ -276,8 +276,10 @@ def serpent_from_str(la_chaine, sep=";")->dict:
     Returns:
         dict: Le serpent représenté dans la chaine de caractères
     """
-    str_serpent_split = la_chaine.split(sep)
-    dico_serpent = Serpent()
+    list_serpent_split = la_chaine.split(sep)
+    dico_serpent = Serpent(list_serpent_split[0],list_serpent_split[1])
+    for value in list_serpent_split:
+        dico_serpent[]
     
     return dico_serpent
 
@@ -292,4 +294,4 @@ def serpent_from_str(la_chaine, sep=";")->dict:
         Returns:
             dict: la copie du serpent passé en paramètres
         """ 
-        ...       
+        
