@@ -239,7 +239,7 @@ def maj_temps(serpent:dict):
     Args:
         serpent (dict): le serpent considéré
     """    
-    ...
+    
 
 def serpent_2_str(serpent:dict, sep=";")->str:
     """Sérialise un serpent sous la forme d'une chaine de caractères
