@@ -273,10 +273,8 @@ def serpent_2_str(serpent:dict, sep=";")->str:
     return info
 
 def serpent_from_str(la_chaine, sep=";")->dict:
-    """Reconstruit un serpent à partir d'une chaine de caractères
-        telle que celle produite par la fonction précédente
-
-    Args:
+    """Reconstruit un serpent à partilist_serpent_split = la_chaine.split(sep)
+    dico_serpent = Serpent(list_serpent_split[0],list_serpent_split[1])
         la_chaine (_type_): la chaine de caractères contenant les informations du serpent
         sep (str, optional): le caractère servant à séparer les informations du serpent. Defaults to ";".
 
