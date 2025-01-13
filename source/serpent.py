@@ -268,6 +268,7 @@ def serpent_2_str(serpent:dict, sep=";")->str:
     info = f"{serpent.get("nom_joueur",0)}{sep}{serpent.get("num_joueur",0)}{sep}{serpent.get("points",0)}{sep}{serpent.get("tps_s",0)}{sep}{serpent.get("tps_p",0)}{sep}{serpent.get("tps_m",0)}{sep}{serpent.get("direction",0)}\n"
     for (l,c) in serpent["positions"]:
         info = info + str(l) + sep + str(c) + sep
+    info = info[:-1]
     return info
     
 print(serpent_2_str(dico_morad))
@@ -301,6 +302,4 @@ def copy_serpent(serpent:dict)->dict:
         dict: la copie du serpent passé en paramètres
     """ 
     serpent_copie = {} 
-    for valeurs in serpent.keys():
-        serpent_copie
-    return serpent_copie
+    

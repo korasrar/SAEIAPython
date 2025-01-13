@@ -219,5 +219,4 @@ def copy_partie(partie:dict)->dict:
     Returns:
         dict: la recopie de la partie passée en paramètres
     """
-    partie_copie=partie.copy()
-    return partie_copie
+    ...
