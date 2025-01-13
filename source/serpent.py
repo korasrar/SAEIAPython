@@ -101,9 +101,9 @@ def get_bonus(serpent:dict)->list:
 
     Returns:
         list: la liste des bonus du joueur
-    """    
-    ...
-
+    """  
+    if serpent["tps_s"]>0 and serpent["tps_p"]>0 and serpent["tps_m"]>0:
+        return ["tps_s","tps_p","tps_m"]
 
 
 def ajouter_points(serpent:dict,nb_points:int):
