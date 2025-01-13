@@ -9,7 +9,7 @@ dico_clement = {"nom_joueur": "clement", "num_joueur":1, "points":3, "positions"
 
 def test_get_nom():
     assert s.get_nom(dico_test) == "morad"
-    
+
 def test_get_num_joueur():
     assert s.get_num_joueur(dico_test) == 1
 
@@ -21,12 +21,12 @@ def test_get_liste_pos():
 
 def test_get_queue():
     assert s.get_queue(dico_test) == ...
-    
+
 def test_get_derniere_direction():
     assert s.get_derniere_direction(dico_test) == 'N'
 
 def test_get_bonus():
     assert s.get_bonus(dico_test) == ...
-    
+
 def test_ajouter_points():
     assert s.ajouter_points(dico_test, 5) == 8
