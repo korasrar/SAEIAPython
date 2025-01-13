@@ -259,7 +259,7 @@ def serpent_2_str(serpent:dict, sep=";")->str:
 
 def serpent_from_str(la_chaine, sep=";")->dict:
     """Reconstruit un serpent à partir d'une chaine de caractères
-       telle que celle produite par la fonction précédente
+        telle que celle produite par la fonction précédente
 
     Args:
         la_chaine (_type_): la chaine de caractères contenant les informations du serpent
@@ -268,7 +268,9 @@ def serpent_from_str(la_chaine, sep=";")->dict:
     Returns:
         dict: Le serpent représenté dans la chaine de caractères
     """    
-    ...
+    dico_serpent = {}
+    str_serpent_split = la_chaine.split(sep)
+    print(str_serpent_split)
 
     def copy_serpent(serpent:dict)->dict:
         """fait une copie du serpent passer en paramètres
