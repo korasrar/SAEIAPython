@@ -36,7 +36,7 @@ def get_nom(serpent:dict)->str:
     Returns:
         str: le nom du joueur associé à ce serpent
     """    
-    ...
+    return serpent["nom_joueur"]
 
 def get_num_joueur(serpent:dict)->int:
     """retourne le numéro du joueur associé au serpent
@@ -47,8 +47,7 @@ def get_num_joueur(serpent:dict)->int:
     Returns:
         int: le numéro du joueur associé à ce serpent
     """   
-    ...
-
+    return serpent["num_joueur"]
 def get_points(serpent:dict)->int:
     """retourne le nombre de points du joueur associé au serpent
 
@@ -58,7 +57,7 @@ def get_points(serpent:dict)->int:
     Returns:
         int: le nombre de points du joueur associé à ce serpent
     """   
-    ...
+    return serpent["points"]
 
 def get_liste_pos(serpent:dict)->list:
     """retourne la liste des positions occupées par le serpent sur l'arène. La première position étant la tête du serpent
@@ -69,7 +68,7 @@ def get_liste_pos(serpent:dict)->list:
     Returns:
         list: la liste des positions occupées par le serpent
     """    
-    ...
+    return serpent["positions"]
 
 def get_queue(serpent:dict)->[int,int]:
     """retourne la position (lig,col) de la queue du serpent dans l'arène
@@ -91,7 +90,7 @@ def get_derniere_direction(serpent:dict)->str:
     Returns:
         str: un des caractère N S E O
     """    
-    ...
+    return serpent["direction"]
 
 def get_bonus(serpent:dict)->list:
     """retourne une liste contenant les bonus obtenus par le joueur
