@@ -255,7 +255,10 @@ def serpent_2_str(serpent:dict, sep=";")->str:
     Returns:
         str: la chaine de caractères contenant les toutes informations du serpent
     """    
-    ...
+    info = ""
+    for elem in serpent:
+        info = info + str(serpent[elem]) + sep
+    return info
 
 def serpent_from_str(la_chaine, sep=";")->dict:
     """Reconstruit un serpent à partir d'une chaine de caractères
