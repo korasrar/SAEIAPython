@@ -57,7 +57,7 @@ def get_points(serpent:dict)->int:
     Returns:
         int: le nombre de points du joueur associé à ce serpent
     """   
-    return serpent["points"]
+    ...
 
 def get_liste_pos(serpent:dict)->list:
     """retourne la liste des positions occupées par le serpent sur l'arène. La première position étant la tête du serpent
@@ -113,19 +113,21 @@ def ajouter_points(serpent:dict,nb_points:int):
         serpent (dict): le serpent considéré
         nb_points (int): le nombre de points à ajouter (si négatif enlève des points)
     """    
-    ...
+    cpt = get_points(serpent)
+    cpt = cpt + nb_points
+    serpent["points"] = cpt
 
 def set_liste_pos(serpent:dict, tete:list):
-    """initialise la liste des positionsd'un serpent
+    """initialise la liste des positionsb d'un serpent
 
     Args:
         serpent (dict): le serpent considéré
         tete (list): la liste des positions occupées par ce serpent
     """    
-    ...
+    arene
 
 def set_derniere_direction(serpent:dict, direction:str):
-    """Met à jout la dernière direction utilisée par le serpent (utile pour l'affichage)
+    """Met à jour la dernière direction utilisée par le serpent (utile pour l'affichage)
 
     Args:
         serpent (dict): le serpent considéré
