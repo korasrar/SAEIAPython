@@ -160,7 +160,7 @@ def get_temps_protection(serpent:dict)->int:
     """indique le temps restant pour le bonus protection
 
     Args:
-        serpent (dict): le serpent considér
+        serpent (dict): le serpent considéré
 
     Returns:
         int: le nombre de tours restant pour ce bonus
@@ -238,8 +238,13 @@ def maj_temps(serpent:dict):
 
     Args:
         serpent (dict): le serpent considéré
-    """    
-    
+    """ 
+    if serpent["tps_s"]>0 :
+        serpent["tps_s"] == serpent["tps_s"] - 1
+    if serpent["tps_m"]>0 :
+        serpent["tps_m"] == serpent["tps_m"] - 1
+    if serpent["tps_p"]>0 :
+        serpent["tps_p"] == serpent["tps_p"] - 1
 
 def serpent_2_str(serpent:dict, sep=";")->str:
     """Sérialise un serpent sous la forme d'une chaine de caractères
@@ -255,7 +260,10 @@ def serpent_2_str(serpent:dict, sep=";")->str:
     Returns:
         str: la chaine de caractères contenant les toutes informations du serpent
     """    
-    ...
+    info = ""
+    for elem in serpent:
+        info = info + str(serpent[elem]) + sep
+    return info
 
 def serpent_from_str(la_chaine, sep=";")->dict:
     """Reconstruit un serpent à partir d'une chaine de caractères
