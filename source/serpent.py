@@ -240,11 +240,11 @@ def maj_temps(serpent:dict):
         serpent (dict): le serpent considéré
     """ 
     if serpent["tps_s"]>0 :
-        serpent["tps_s"] == serpent["tps_s"] - 1
+        serpent["tps_s"] +=  -1
     if serpent["tps_m"]>0 :
-        serpent["tps_m"] == serpent["tps_m"] - 1
+        serpent["tps_m"] += -1
     if serpent["tps_p"]>0 :
-        serpent["tps_p"] == serpent["tps_p"] - 1
+        serpent["tps_p"] += -1
 
 def serpent_2_str(serpent:dict, sep=";")->str:
     """Sérialise un serpent sous la forme d'une chaine de caractères
