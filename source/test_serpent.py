@@ -1,16 +1,20 @@
 import serpent as s
 
-dico_test : dict = {"nom_joueur": "morad", "num_joueur":1, "points":3, "positions":[[0,0],[1,0],[1,1]]
+dico_morad = {"nom_joueur": "morad", "num_joueur":1, "points":3, "positions":[[0,0],[1,0],[1,1]]
+,"tps_s":3, "tps_p":3, "tps_m":3, "direction":'N'}
+dico_celestin = {"nom_joueur": "celestin", "num_joueur":1, "points":3, "positions":[[0,0],[1,0],[1,1]]
+,"tps_s":3, "tps_p":3, "tps_m":3, "direction":'N'}
+dico_clement = {"nom_joueur": "clement", "num_joueur":1, "points":3, "positions":[[0,0],[1,0],[1,1]]
 ,"tps_s":3, "tps_p":3, "tps_m":3, "direction":'N'}
 
 def test_get_nom():
-    assert s.get_nom(dico_test) == "test1"
+    assert s.get_nom(dico_test) == "morad"
     
 def test_get_num_joueur():
     assert s.get_num_joueur(dico_test) == 1
 
 def test_get_points():
-    assert s.get_points(dico_test) == 0
+    assert s.get_points(dico_test) == 3
     
 def test_get_liste_pos():
     assert s.get_liste_pos(dico_test) == ...
