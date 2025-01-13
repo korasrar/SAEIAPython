@@ -202,7 +202,7 @@ def ajouter_temps_protection(serpent:dict, temps:int)->int:
     Returns:
         int: le nombre de tours total restant pour ce bonus
     """    
-    serpent["tps_p"] += temps
+    serpent["tps_p"] = serpent.get("tps_p",0) + temps 
     return serpent["tps_p"]
 
 def ajouter_temps_mange_mur(serpent:dict, temps:int)->int:
@@ -215,7 +215,7 @@ def ajouter_temps_mange_mur(serpent:dict, temps:int)->int:
     Returns:
         int: le nombre de tours total restant pour ce bonus
     """    
-    serpent["tps_m"] += temps
+    serpent["tps_m"] = serpent.get("tps_m",0) + temps 
     return serpent["tps_m"]
 
 def ajouter_temps_surpuissance(serpent:dict, temps:int)->int:
@@ -228,8 +228,7 @@ def ajouter_temps_surpuissance(serpent:dict, temps:int)->int:
     Returns:
         int: le nombre de tours total restant pour ce bonus
     """ 
-    serpent.get("tps_s",0)    
-    serpent["tps_s"] += temps
+    serpent["tps_s"] = serpent.get("tps_s",0) + temps 
     return serpent["tps_s"]
 
 def maj_temps(serpent:dict):

@@ -58,14 +58,21 @@ def test_get_temps_protection():
     assert s.get_temps_protection(dico_clement) == 1
 
 def test_ajouter_temps_protection():
-    assert s.ajouter_temps_protection(dico_morad, 2) == s.get_temps_mange_mur(dico_morad)
-    assert s.ajouter_temps_protection(dico_morad, 2) == s.get_temps_mange_mur(dico_morad)
-    assert s.ajouter_temps_protection(dico_morad, 2) == s.get_temps_mange_mur(dico_morad)
+    assert s.ajouter_temps_protection(dico_morad, 2) == s.get_temps_protection(dico_morad)
+    assert s.ajouter_temps_protection(dico_celestin, 3) == s.get_temps_protection(dico_celestin)
+    assert s.ajouter_temps_protection(dico_clement, 1) == s.get_temps_protection(dico_clement)
 
 def test_ajouter_temps_mange_mur():
-    
+    assert s.ajouter_temps_mange_mur(dico_morad,2) == s.get_temps_mange_mur(dico_morad)
+    assert s.ajouter_temps_mange_mur(dico_celestin,2) == s.get_temps_mange_mur(dico_celestin)
+    assert s.ajouter_temps_mange_mur(dico_clement,2) == s.get_temps_mange_mur(dico_clement)
 
 def test_ajouter_temps_surpuissance():
     assert s.ajouter_temps_surpuissance(dico_morad, 2) == s.get_temps_surpuissance(dico_morad)
-    assert s.ajouter_temps_surpuissance(dico_celestin, 4) == s.get_temps_surpuissance(dico_celestin)
-    assert s.ajouter_temps_surpuissance(dico_clement, 2) == s.get_temps_surpuissance(dico_clement)
+    assert s.ajouter_temps_surpuissance(dico_celestin, 3) == s.get_temps_surpuissance(dico_celestin)
+    assert s.ajouter_temps_surpuissance(dico_clement, 1) == s.get_temps_surpuissance(dico_clement)
+
+def test_serpent_2_str():
+    
+
+def test_serpent_from_str
