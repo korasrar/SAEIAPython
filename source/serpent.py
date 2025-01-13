@@ -104,11 +104,11 @@ def get_bonus(serpent:dict)->list:
     """  
     bonus_restant = []
     if serpent["tps_s"]>0 :
-        bonus_restant.append(tps_s)
+        bonus_restant.append(serpent["tps_s"])
     if serpent["tps_p"]>0 :
-        bonus_restant.append(tps_p)
+        bonus_restant.append(serpent["tps_p"])
     if serpent["tps_m"]>0 :
-        bonus_restant.append(tps_m)
+        bonus_restant.append(serpent["tps_m"])
     return bonus_restant
 
 
