@@ -1,3 +1,4 @@
+
 dico_test : dict = {"nom_joueur": "morad", "num_joueur":1, "points":3, "positions":positions, 
 "tps_s":tps_s, "tps_p":tps_p, "tps_m":tps_m, "direction":direction}
 
