@@ -1,3 +1,9 @@
+dico_morad = {"nom_joueur": "morad", "num_joueur":1, "points":3, "positions":[[0,0],[1,0],[1,1]]
+,"tps_s":3, "tps_p":8, "tps_m":0, "direction":'N'}
+dico_celestin = {"nom_joueur": "celestin", "num_joueur":2, "points":6, "positions":[[0,0],[1,0],[1,1],[1,2]]
+,"tps_s":6, "tps_p":0, "tps_m":2, "direction":'S'}
+dico_clement = {"nom_joueur": "clement", "num_joueur":3, "points":5, "positions":[[0,0],[1,0],[1,1]]
+,"tps_s":0, "tps_p":1, "tps_m":9, "direction":'O'}
 # coding: utf-8
 """
             SAE1.02 SERPIUT'O
@@ -262,13 +268,16 @@ def serpent_2_str(serpent:dict, sep=";")->str:
     info = ""
     inter = ""
     for elem in serpent:
-        if elem == 'position':
+        if elem == 'positions':
             for (lign,col) in serpent[elem]:
+                if inter == "":
+                    inter = str
                 inter = inter + str(lign) + sep + str(col) + sep
         else:
             info = info + str(serpent[elem]) + sep
     info = info + '\n' + inter
     return info
+print(serpent_2_str(dico_morad))
 
 def serpent_from_str(la_chaine, sep=";")->dict:
     """Reconstruit un serpent à partilist_serpent_split = la_chaine.split(sep)
