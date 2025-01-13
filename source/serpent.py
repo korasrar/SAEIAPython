@@ -265,18 +265,11 @@ def serpent_2_str(serpent:dict, sep=";")->str:
     Returns:
         str: la chaine de caractères contenant les toutes informations du serpent
     """    
-    info = ""
-    inter = ""
-    for elem in serpent:
-        if elem == 'positions':
-            for (lign,col) in serpent[elem]:
-                if inter == "":
-                    inter = str
-                inter = inter + str(lign) + sep + str(col) + sep
-        else:
-            info = info + str(serpent[elem]) + sep
-    info = info + '\n' + inter
+    info = f"{serpent.get("nom_joueur",0)}{sep}{serpent.get("num_joueur",0)}{sep}{serpent.get("points",0)}{sep}{serpent.get("tps_s",0)}{sep}{serpent.get("tps_p",0)}{sep}{serpent.get("tps_m",0)}{sep}{serpent.get("direction",0)}\n"
+    for (l,c) in serpent["positions"]:
+        info = info + str(l) + sep + str(c) + sep
     return info
+    
 print(serpent_2_str(dico_morad))
 
 def serpent_from_str(la_chaine, sep=";")->dict:
@@ -307,5 +300,7 @@ def copy_serpent(serpent:dict)->dict:
     Returns:
         dict: la copie du serpent passé en paramètres
     """ 
-    copie_serpent = serpent.deepcopy()
-    return copie_serpent
+    serpent_copie = {} 
+    for valeurs in serpent.keys():
+        serpent_copie
+    return serpent_copie

@@ -1,7 +1,7 @@
 # coding: utf-8
 """
             SAE1.02 SERPIUT'O
-         BUT1 Informatique 2024-2025
+        BUT1 Informatique 2024-2025
 
     Module IA.py
     Ce module implémente toutes les fonctions ainsi que l'IA de votre serpent
@@ -52,7 +52,6 @@ def objets_voisinage(l_arene:dict, num_joueur, dist_max:int):
             val_obj indique la valeur de l'objet ou de la boite et prop indique le propriétaire de la boite
     """
     ...
-
 
 
 def mon_IA2(num_joueur:int, la_partie:dict)->str:
