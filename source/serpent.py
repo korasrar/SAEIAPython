@@ -48,6 +48,7 @@ def get_num_joueur(serpent:dict)->int:
         int: le numéro du joueur associé à ce serpent
     """   
     return serpent["num_joueur"]
+
 def get_points(serpent:dict)->int:
     """retourne le nombre de points du joueur associé au serpent
 
@@ -57,7 +58,7 @@ def get_points(serpent:dict)->int:
     Returns:
         int: le nombre de points du joueur associé à ce serpent
     """   
-    ...
+    return serpent["points"]
 
 def get_liste_pos(serpent:dict)->list:
     """retourne la liste des positions occupées par le serpent sur l'arène. La première position étant la tête du serpent
@@ -79,7 +80,7 @@ def get_queue(serpent:dict)->[int,int]:
     Returns:
         [int,int]: la position lig,col du la queue du serpent
     """    
-    return serpent["positions"][-1]
+    return serpent["positions"][-1] # incertain
 
 def get_derniere_direction(serpent:dict)->str:
     """retourne la dernière direction choisie par le joueur pour se déplacer
@@ -104,11 +105,11 @@ def get_bonus(serpent:dict)->list:
     """  
     bonus_restant = []
     if serpent["tps_s"]>0 :
-        bonus_restant.append(serpent["tps_s"])
+        bonus_restant.append("tps_s")
     if serpent["tps_p"]>0 :
-        bonus_restant.append(serpent["tps_p"])
+        bonus_restant.append("tps_p")
     if serpent["tps_m"]>0 :
-        bonus_restant.append(serpent["tps_m"])
+        bonus_restant.append("tps_m")
     return bonus_restant
 
 
@@ -164,7 +165,9 @@ def get_temps_protection(serpent:dict)->int:
     Returns:
         int: le nombre de tours restant pour ce bonus
     """    
-    ...
+    if serpent["tps_s"]>0 :
+        return serpent["tps_s"]
+
 
 def get_temps_mange_mur(serpent:dict)->int:
     """indique le temps restant pour le bonus mange mur
@@ -175,7 +178,8 @@ def get_temps_mange_mur(serpent:dict)->int:
     Returns:
         int: le nombre de tours restant pour ce bonus
     """   
-    ...
+    if serpent["tps_p"]>0 :
+        return serpent["tps_p"]
 
 def get_temps_surpuissance(serpent:dict)->int:
     """indique le temps restant pour le bonus surpuissance
@@ -186,7 +190,8 @@ def get_temps_surpuissance(serpent:dict)->int:
     Returns:
         int: le nombre de tours restant pour ce bonus
     """   
-    ...
+    if serpent["tps_m"]>0 :
+        return serpent["tps_m"]
 
 def ajouter_temps_protection(serpent:dict, temps:int)->int:
     """ajoute du temps supplémentaire pour le bonus protection
