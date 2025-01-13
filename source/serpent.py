@@ -227,7 +227,8 @@ def ajouter_temps_surpuissance(serpent:dict, temps:int)->int:
 
     Returns:
         int: le nombre de tours total restant pour ce bonus
-    """    
+    """ 
+    serpent.get("tps_s",0)    
     serpent["tps_s"] += temps
     return serpent["tps_s"]
 
