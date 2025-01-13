@@ -203,7 +203,8 @@ def ajouter_temps_protection(serpent:dict, temps:int)->int:
     Returns:
         int: le nombre de tours total restant pour ce bonus
     """    
-    ...
+    serpent["tps_p"] += temps
+    return serpent["tps_p"]
 
 def ajouter_temps_mange_mur(serpent:dict, temps:int)->int:
     """ajoute du temps supplémentaire pour le bonus mange mur
