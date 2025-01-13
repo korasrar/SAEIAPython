@@ -261,8 +261,15 @@ def serpent_2_str(serpent:dict, sep=";")->str:
         str: la chaine de caractères contenant les toutes informations du serpent
     """    
     info = ""
+    inter = ""
     for elem in serpent:
-        info = info + str(serpent[elem]) + sep
+        if elem == 'position':
+            for (lign,col) in serpent[elem]:
+                inter = inter + str(lign) + sep + str(col) + sep
+        else:
+            info = info + str(serpent[elem]) + sep
+        
+    info = info + '\n' + inter
     return info
 
 def serpent_from_str(la_chaine, sep=";")->dict:
