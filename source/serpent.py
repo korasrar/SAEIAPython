@@ -160,7 +160,7 @@ def get_temps_protection(serpent:dict)->int:
     """indique le temps restant pour le bonus protection
 
     Args:
-        serpent (dict): le serpent considéré
+        serpent (dict): le serpent considér
 
     Returns:
         int: le nombre de tours restant pour ce bonus
