@@ -125,7 +125,7 @@ def ajouter_points(serpent:dict,nb_points:int):
     serpent["points"] = cpt
 
 def set_liste_pos(serpent:dict, tete:list):
-    """initialise la liste des positionsb d'un serpent
+    """initialise la liste des positions d'un serpent
 
     Args:
         serpent (dict): le serpent considéré
@@ -283,15 +283,17 @@ def serpent_from_str(la_chaine, sep=";")->dict:
     
     return dico_serpent
 
-    def copy_serpent(serpent:dict)->dict:
-        """fait une copie du serpent passer en paramètres
-        Attention à bien faire une copie de la liste des positions
-        
+def copy_serpent(serpent:dict)->dict:
+    """fait une copie du serpent passer en paramètres
+    Attention à bien faire une copie de la liste des positions
+    
 
-        Args:
-            serpent (dict): le serpent à recopier
+    Args:
+        serpent (dict): le serpent à recopier
 
-        Returns:
-            dict: la copie du serpent passé en paramètres
-        """ 
-        
+    Returns:
+        dict: la copie du serpent passé en paramètres
+    """ 
+    copie_serpent = serpent.copy()
+    return copie_serpent
+    
