@@ -299,7 +299,7 @@ def copy_serpent(serpent:dict)->dict:
     Returns:
         dict: la copie du serpent passé en paramètres
     """ 
-    copie_serpent = serpent.copy()
+    copie_serpent = serpent.deepcopy()
     return copie_serpent
 
 str_serpent = "test1;1;0;0;0;0 \n 0;0;1;0"
