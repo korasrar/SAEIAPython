@@ -281,12 +281,13 @@ def serpent_from_str(la_chaine, sep=";")->dict:
     Returns:
         dict: Le serpent représenté dans la chaine de caractères
     """
-    list_serpent_split = la_chaine.split(sep)
-    dico_serpent = Serpent(list_serpent_split[0],list_serpent_split[1])
-    for value in list_serpent_split:
-        dico_serpent[]
-    
-    return dico_serpent
+    list_serpent_split = la_chaine.split('\n')
+    list_serpent_values = list_serpent_split[0].split(sep)
+    list_serpent_position = list_serpent_split[1].split(sep)
+    list_serpent_position_check = []
+    for i in range(0,len(list_serpent_position),2):
+        list_serpent_position_check.append([list_serpent_position[i],list_serpent_position_check[i+1]])
+    return {"nom_joueur":list_serpent_values[0], "num_joueur":list_serpent_values[1], "points":list_serpent_values[2], "positions":list_serpent_position_check, "tps_s":list_serpent_values[3], "tps_p":list_serpent_values[4], "tps_m":list_serpent_values[5], "direction":'N'}
 
 def copy_serpent(serpent:dict)->dict:
     """fait une copie du serpent passer en paramètres
@@ -304,40 +305,3 @@ def copy_serpent(serpent:dict)->dict:
 
 str_serpent = "test1;1;0;0;0;0 \n 0;0;1;0"
 dico_serpent = {"nom_joueur":"test1", "num_joueur":1, "points":0, "positions":[(0,0),(1,0)], "tps_s":0, "tps_p":0, "tps_m":0, "direction":'N'}
-
-nom_j;num_j;nb_point;tps_surpuissance;tps_mange_mur;tps_protection
-    lig1;col1;lig2;col2;...
-    
-
-
-
-
-
-dico_test : dict = {"nom_joueur": "morad", "num_joueur":1, "points":3, "positions":positions, 
-"tps_s":tps_s, "tps_p":tps_p, "tps_m":tps_m, "direction":direction}
-
-
-def test_get_nom():
-    assert get_nom(dico_serpent) == "test1"
-    
-def test_get_num_joueur():
-    assert get_num_joueur(dico_serpent) == 1
-
-def test_get_points():
-    assert get_points(dico_serpent) == 0
-    
-def test_get_liste_pos():
-    assert get_liste_pos(dico_serpent) == ...
-
-def test_get_queue():
-    assert get_queue(dico_serpent) == ...
-    
-    
-def test_get_derniere_direction():
-    assert get_derniere_direction(dico_serpent) == 'N'
-
-def test_get_bonus():
-    assert get_bonus(dico_serpent) == ...
-    
-def test_ajouter_points():
-    assert ajouter_points(dico_serpent, 5) == 5
