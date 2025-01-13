@@ -215,5 +215,9 @@ def copy_case(case:dict)->dict:
     Returns:
         dict: la copie de la case passée en paramètre
     """ 
+<<<<<<< HEAD
     case_copie = case.copy()
     return case_copie
+=======
+    f
+>>>>>>> d15e74b2f66cb18fb4cb7fa99154c7100b3dfb7f
