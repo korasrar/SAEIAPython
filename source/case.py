@@ -215,4 +215,10 @@ def copy_case(case:dict)->dict:
     Returns:
         dict: la copie de la case passée en paramètre
     """ 
-    ...
+    copie = {}
+    for elem, val in case.items():
+        if type(val) is list:
+            copie[elem] = val[:]
+        else:
+            copie[elem] = val
+    return copie

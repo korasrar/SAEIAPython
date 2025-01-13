@@ -170,8 +170,7 @@ def get_temps_protection(serpent:dict)->int:
     Returns:
         int: le nombre de tours restant pour ce bonus
     """    
-    if serpent["tps_p"]>0 :
-        return serpent["tps_p"]
+    return serpent["tps_p"]
 
 
 def get_temps_mange_mur(serpent:dict)->int:
@@ -183,8 +182,7 @@ def get_temps_mange_mur(serpent:dict)->int:
     Returns:
         int: le nombre de tours restant pour ce bonus
     """   
-    if serpent["tps_m"]>0 :
-        return serpent["tps_m"]
+    return serpent["tps_m"]
 
 def get_temps_surpuissance(serpent:dict)->int:
     """indique le temps restant pour le bonus surpuissance
@@ -195,8 +193,8 @@ def get_temps_surpuissance(serpent:dict)->int:
     Returns:
         int: le nombre de tours restant pour ce bonus
     """   
-    if serpent["tps_s"]>0 :
-        return serpent["tps_s"]
+
+    return serpent["tps_s"]
 
 def ajouter_temps_protection(serpent:dict, temps:int)->int:
     """ajoute du temps supplémentaire pour le bonus protection
@@ -286,9 +284,10 @@ def serpent_from_str(la_chaine, sep=";")->dict:
     list_serpent_values = list_serpent_split[0].split(sep)
     list_serpent_position = list_serpent_split[1].split(sep)
     list_serpent_position_check = []
-    for i in range(0,len(list_serpent_position),2):
-        list_serpent_position_check.append([list_serpent_position[i],list_serpent_position_check[i+1]])
-    return {"nom_joueur":list_serpent_values[0], "num_joueur":list_serpent_values[1], "points":list_serpent_values[2], "positions":list_serpent_position_check, "tps_s":list_serpent_values[3], "tps_p":list_serpent_values[4], "tps_m":list_serpent_values[5], "direction":'N'}
+    for i in range(0,len(list_serpent_position)-1,2):
+        list_serpent_position_check.append([int(list_serpent_position[i]),int(list_serpent_position[i+1])])
+    return {"nom_joueur":list_serpent_values[0], "num_joueur":list_serpent_values[1], "points":int(list_serpent_values[2]), "positions":list_serpent_position_check, "tps_s":int(list_serpent_values[3]), "tps_p":int(list_serpent_values[4]), "tps_m":int(list_serpent_values[5]), "direction":'N'}
+print(serpent_from_str("morad;1;3;3;8;0;N\n0;0;1;0;1;1"))
 
 def copy_serpent(serpent:dict)->dict:
     """fait une copie du serpent passer en paramètres
@@ -301,5 +300,10 @@ def copy_serpent(serpent:dict)->dict:
     Returns:
         dict: la copie du serpent passé en paramètres
     """ 
-    serpent_copie = {} 
-    
+    copie_serpent = {}
+    for elem, val in serpent.items():
+        if type(val) is list:
+            copie_serpent[elem] = val[:]
+        else:
+            copie_serpent[elem] = val
+    return copie_serpent

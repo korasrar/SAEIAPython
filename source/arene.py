@@ -858,4 +858,10 @@ def copy_arene(arene:dict)->dict:
     Returns:
         dict: la copie de l'arène passée en paramètre
     """
-    ...
+    copie = {}
+    for elem, val in arene.items():
+        if type(val) is list:
+            copie[elem] = val[:]
+        else:
+            copie[elem] = val
+    return copie

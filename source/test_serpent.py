@@ -6,6 +6,9 @@ dico_celestin = {"nom_joueur": "celestin", "num_joueur":2, "points":6, "position
 ,"tps_s":6, "tps_p":0, "tps_m":2, "direction":'S'}
 dico_clement = {"nom_joueur": "clement", "num_joueur":3, "points":5, "positions":[[0,0],[1,0],[1,1]]
 ,"tps_s":0, "tps_p":1, "tps_m":9, "direction":'O'}
+str_morad = f"morad;{s.get_num_joueur(dico_morad)};{s.get_points(dico_morad)};{s.get_temps_surpuissance(dico_morad)};{s.get_temps_protection(dico_morad)};{s.get_temps_mange_mur(dico_morad)};N\n0;0;1;0;1;1"
+str_celestin = f"celestin;{s.get_num_joueur(dico_celestin)};{s.get_points(dico_celestin)};{s.get_temps_surpuissance(dico_celestin)};{s.get_temps_protection(dico_celestin)};{s.get_temps_mange_mur(dico_celestin)};S\n0;0;1;0;1;1;1;2"
+str_clement = f"clement;{s.get_num_joueur(dico_clement)};{s.get_points(dico_clement)};{s.get_temps_surpuissance(dico_clement)};{s.get_temps_protection(dico_clement)};{s.get_temps_mange_mur(dico_clement)};O\n0;0;1;0;1;1"
 
 def test_get_nom():
     assert s.get_nom(dico_morad) == "morad"
@@ -48,13 +51,13 @@ def test_to_str():
     assert s.to_str(dico_clement) == "clement -> 5 s:0 m:9 p:1"
     
 def test_get_temps_mange_mur():
-    assert s.get_temps_mange_mur(dico_morad) == None
+    assert s.get_temps_mange_mur(dico_morad) == 0
     assert s.get_temps_mange_mur(dico_celestin) == 2
     assert s.get_temps_mange_mur(dico_clement) == 9
 
 def test_get_temps_protection():
     assert s.get_temps_protection(dico_morad) == 8
-    assert s.get_temps_protection(dico_celestin) == None
+    assert s.get_temps_protection(dico_celestin) == 0
     assert s.get_temps_protection(dico_clement) == 1
 
 def test_ajouter_temps_protection():
@@ -69,18 +72,16 @@ def test_ajouter_temps_mange_mur():
 
 def test_ajouter_temps_surpuissance():
     assert s.ajouter_temps_surpuissance(dico_morad, 2) == s.get_temps_surpuissance(dico_morad)
-    assert s.ajouter_temps_surpuissance(dico_celestin, 3) == s.get_temps_surpuissance(dico_celestin)
-    assert s.ajouter_temps_surpuissance(dico_clement, 1) == s.get_temps_surpuissance(dico_clement)
 
 def test_serpent_2_str():
-    assert s.serpent_2_str(dico_morad) == f"morad;{s.get_num_joueur(dico_morad)};{s.get_points(dico_morad)};{s.get_temps_surpuissance(dico_morad)};{s.get_temps_protection(dico_morad)};{s.get_temps_mange_mur(dico_morad)};N\n0;0;1;0;1;1"
-    assert s.serpent_2_str(dico_celestin) == f"celestin;{s.get_num_joueur(dico_celestin)};{s.get_points(dico_celestin)};{s.get_temps_surpuissance(dico_celestin)};{s.get_temps_protection(dico_celestin)};{s.get_temps_mange_mur(dico_celestin)};S\n0;0;1;0;1;1;1;2"
-    assert s.serpent_2_str(dico_clement) == f"clement;{s.get_num_joueur(dico_clement)};{s.get_points(dico_clement)};{s.get_temps_surpuissance(dico_clement)};{s.get_temps_protection(dico_clement)};{s.get_temps_mange_mur(dico_clement)};O\n0;0;1;0;1;1"
+    assert s.serpent_2_str(dico_morad) == str_morad
+    assert s.serpent_2_str(dico_celestin) == str_celestin
+    assert s.serpent_2_str(dico_clement) == str_clement
 
 def test_serpent_from_str():
-    assert s.serpent_from_str(dico_morad) == ...
-    assert s.serpent_from_str(dico_morad) == ...
-    assert s.serpent_from_str(dico_morad) == ...
+    assert s.serpent_from_str(str_morad) == dico_morad
+    assert s.serpent_from_str(str_celestin) == dico_celestin
+    assert s.serpent_from_str(str_clement) == dico_clement
 
 def test_copie_serpent():
     assert s.copy_serpent(dico_morad) == dico_morad

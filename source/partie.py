@@ -219,4 +219,10 @@ def copy_partie(partie:dict)->dict:
     Returns:
         dict: la recopie de la partie passée en paramètres
     """
-    ...
+    copie = {}
+    for elem, val in partie.items():
+        if type(val) is list:
+            copie[elem] = val[:]
+        else:
+            copie[elem] = val
+    return copie
