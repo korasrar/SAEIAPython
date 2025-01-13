@@ -75,7 +75,7 @@ def get_liste_pos(serpent:dict)->list:
     Returns:
         list: la liste des positions occupées par le serpent
     """    
-    return serpent["positions"]
+    return serpent.get("positions",[])
 
 def get_queue(serpent:dict)->[int,int]:
     """retourne la position (lig,col) de la queue du serpent dans l'arène
@@ -286,7 +286,7 @@ def serpent_from_str(la_chaine, sep=";")->dict:
     list_serpent_position_check = []
     for i in range(0,len(list_serpent_position)-1,2):
         list_serpent_position_check.append([int(list_serpent_position[i]),int(list_serpent_position[i+1])])
-    return {"nom_joueur":list_serpent_values[0], "num_joueur":list_serpent_values[1], "points":int(list_serpent_values[2]), "positions":list_serpent_position_check, "tps_s":int(list_serpent_values[3]), "tps_p":int(list_serpent_values[4]), "tps_m":int(list_serpent_values[5]), "direction":'N'}
+    return {"nom_joueur":list_serpent_values[0], "num_joueur":int(list_serpent_values[1]), "points":int(list_serpent_values[2]), "positions":list_serpent_position_check, "tps_s":int(list_serpent_values[3]), "tps_p":int(list_serpent_values[4]), "tps_m":int(list_serpent_values[5]), "direction":list_serpent_values[6]}
 print(serpent_from_str("morad;1;3;3;8;0;N\n0;0;1;0;1;1"))
 
 def copy_serpent(serpent:dict)->dict:

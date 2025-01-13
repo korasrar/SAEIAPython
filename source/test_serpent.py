@@ -70,21 +70,18 @@ def test_ajouter_temps_mange_mur():
 def test_ajouter_temps_surpuissance():
     assert s.ajouter_temps_surpuissance(dico_morad, 2) == s.get_temps_surpuissance(dico_morad)
 
-str_morad = f"morad;{s.get_num_joueur(dico_morad)};{s.get_points(dico_morad)};{s.get_temps_surpuissance(dico_morad)};{s.get_temps_protection(dico_morad)};{s.get_temps_mange_mur(dico_morad)};N\n0;0;1;0;1;1"
-str_celestin = f"celestin;{s.get_num_joueur(dico_celestin)};{s.get_points(dico_celestin)};{s.get_temps_surpuissance(dico_celestin)};{s.get_temps_protection(dico_celestin)};{s.get_temps_mange_mur(dico_celestin)};S\n0;0;1;0;1;1;1;2"
-str_clement = f"clement;{s.get_num_joueur(dico_clement)};{s.get_points(dico_clement)};{s.get_temps_surpuissance(dico_clement)};{s.get_temps_protection(dico_clement)};{s.get_temps_mange_mur(dico_clement)};O\n0;0;1;0;1;1"
-
 def test_serpent_2_str():
-    assert s.serpent_2_str(dico_morad) == str_morad
-    assert s.serpent_2_str(dico_celestin) == str_celestin
-    assert s.serpent_2_str(dico_clement) == str_clement
+    assert s.serpent_2_str(dico_morad) == f"morad;{s.get_num_joueur(dico_morad)};{s.get_points(dico_morad)};{s.get_temps_surpuissance(dico_morad)};{s.get_temps_protection(dico_morad)};{s.get_temps_mange_mur(dico_morad)};N\n0;0;1;0;1;1"
+    assert s.serpent_2_str(dico_celestin) == f"celestin;{s.get_num_joueur(dico_celestin)};{s.get_points(dico_celestin)};{s.get_temps_surpuissance(dico_celestin)};{s.get_temps_protection(dico_celestin)};{s.get_temps_mange_mur(dico_celestin)};S\n0;0;1;0;1;1;1;2"
+    assert s.serpent_2_str(dico_clement) == f"clement;{s.get_num_joueur(dico_clement)};{s.get_points(dico_clement)};{s.get_temps_surpuissance(dico_clement)};{s.get_temps_protection(dico_clement)};{s.get_temps_mange_mur(dico_clement)};O\n0;0;1;0;1;1"
 
 def test_serpent_from_str():
-    assert s.serpent_from_str(str_morad) == dico_morad
-    assert s.serpent_from_str(str_celestin) == dico_celestin
-    assert s.serpent_from_str(str_clement) == dico_clement
+    assert s.serpent_from_str(f"morad;{s.get_num_joueur(dico_morad)};{s.get_points(dico_morad)};{s.get_temps_surpuissance(dico_morad)};{s.get_temps_protection(dico_morad)};{s.get_temps_mange_mur(dico_morad)};N\n0;0;1;0;1;1") == dico_morad
+    assert s.serpent_from_str(f"celestin;{s.get_num_joueur(dico_celestin)};{s.get_points(dico_celestin)};{s.get_temps_surpuissance(dico_celestin)};{s.get_temps_protection(dico_celestin)};{s.get_temps_mange_mur(dico_celestin)};S\n0;0;1;0;1;1;1;2") == dico_celestin
+    assert s.serpent_from_str(f"clement;{s.get_num_joueur(dico_clement)};{s.get_points(dico_clement)};{s.get_temps_surpuissance(dico_clement)};{s.get_temps_protection(dico_clement)};{s.get_temps_mange_mur(dico_clement)};O\n0;0;1;0;1;1") == dico_clement
 
 def test_copie_serpent():
     assert s.copy_serpent(dico_morad) == dico_morad
     assert s.copy_serpent(dico_celestin) == dico_celestin
     assert s.copy_serpent(dico_clement) == dico_clement
+    
