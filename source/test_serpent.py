@@ -75,4 +75,5 @@ def test_ajouter_temps_surpuissance():
 def test_serpent_2_str():
     
 
-def test_serpent_from_str
+def test_serpent_from_str():
+    
