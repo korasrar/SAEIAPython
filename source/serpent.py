@@ -302,6 +302,3 @@ def copy_serpent(serpent:dict)->dict:
     """ 
     copie_serpent = serpent.deepcopy()
     return copie_serpent
-
-str_serpent = "test1;1;0;0;0;0 \n 0;0;1;0"
-dico_serpent = {"nom_joueur":"test1", "num_joueur":1, "points":0, "positions":[(0,0),(1,0)], "tps_s":0, "tps_p":0, "tps_m":0, "direction":'N'}
