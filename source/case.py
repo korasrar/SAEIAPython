@@ -1,7 +1,7 @@
 # coding: utf-8
 """
             SAE1.02 SERPIUT'O
-         BUT1 Informatique 2024-2025
+        BUT1 Informatique 2024-2025
 
     Module case.py
     module implémentant l'API de gestion d'une case de l'arène.
