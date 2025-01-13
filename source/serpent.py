@@ -120,9 +120,7 @@ def ajouter_points(serpent:dict,nb_points:int):
         serpent (dict): le serpent considéré
         nb_points (int): le nombre de points à ajouter (si négatif enlève des points)
     """    
-    cpt = get_points(serpent)
-    cpt = cpt + nb_points
-    serpent["points"] = cpt
+    serpent["points"] += nb_points
 
 def set_liste_pos(serpent:dict, tete:list):
     """initialise la liste des positions d'un serpent
