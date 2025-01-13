@@ -152,7 +152,8 @@ def to_str(serpent:dict)->str:
     Returns:
         str: la chaine de caractères donnant les informations principales d'un serpent 
     """    
-    return serpent["nom_joueur"] ,"->", serpent["points"], "s:",serpent["tps_s"], "m:",serpent["tps_m"], "p:",serpent["tps_m"]
+    info = f"{serpent["nom_joueur"]} -> {serpent["points"]} s:{serpent["tps_s"]} m:{serpent["tps_m"]} p:{serpent["tps_p"]}" 
+    return info
 
 def get_temps_protection(serpent:dict)->int:
     """indique le temps restant pour le bonus protection
