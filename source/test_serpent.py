@@ -78,5 +78,4 @@ def test_serpent_2_str():
 def test_serpent_from_str():
     
 
-
-
+def test_copie_serpent()
