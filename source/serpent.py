@@ -152,7 +152,8 @@ def to_str(serpent:dict)->str:
     Returns:
         str: la chaine de caractères donnant les informations principales d'un serpent 
     """    
-    return serpent["nom_joueur"] ,"->", serpent["points"], "s:",serpent["tps_s"], "m:",serpent["tps_m"], "p:",serpent["tps_m"]
+    info = f"{serpent["nom_joueur"]} -> {serpent["points"]} s:{serpent["tps_s"]} m:{serpent["tps_m"]} p:{serpent["tps_p"]}" 
+    return info
 
 def get_temps_protection(serpent:dict)->int:
     """indique le temps restant pour le bonus protection
@@ -226,7 +227,8 @@ def ajouter_temps_surpuissance(serpent:dict, temps:int)->int:
 
     Returns:
         int: le nombre de tours total restant pour ce bonus
-    """    
+    """ 
+    serpent.get("tps_s",0)    
     serpent["tps_s"] += temps
     return serpent["tps_s"]
 
@@ -238,11 +240,11 @@ def maj_temps(serpent:dict):
         serpent (dict): le serpent considéré
     """ 
     if serpent["tps_s"]>0 :
-        serpent["tps_s"] +=  -1
+        serpent["tps_s"] -= 1
     if serpent["tps_m"]>0 :
-        serpent["tps_m"] += -1
+        serpent["tps_m"] -= 1
     if serpent["tps_p"]>0 :
-        serpent["tps_p"] += -1
+        serpent["tps_p"] -= 1
 
 def serpent_2_str(serpent:dict, sep=";")->str:
     """Sérialise un serpent sous la forme d'une chaine de caractères
@@ -266,7 +268,6 @@ def serpent_2_str(serpent:dict, sep=";")->str:
                 inter = inter + str(lign) + sep + str(col) + sep
         else:
             info = info + str(serpent[elem]) + sep
-        
     info = info + '\n' + inter
     return info
 
