@@ -31,7 +31,7 @@ class JeuGraphique(object):
 
     def __init__(self, lecteur_jeu, titre="SerpIUT'O", size=(1600, 1000),
                  couleur=(209, 238, 238),
-                 prefixe_image="/home/iut45/Etudiants/o22401112/SAEIAPython/img"):
+                 prefixe_image="../img"):
         """Method docstring."""
         self.lecteur_jeu=lecteur_jeu
         self.partie,message_info=lecteur_jeu.get_partie()
@@ -66,7 +66,7 @@ class JeuGraphique(object):
         self.surface = pygame.display.get_surface()
         self.maj_parametres()
 
-    def get_images(self, prefixe_image="/home/iut45/Etudiants/o22401112/SAEIAPython/img"):
+    def get_images(self, prefixe_image="../img"):
         if os.path.isfile(os.path.join(prefixe_image, 'mur.png')):
             mur = pygame.image.load(os.path.join(prefixe_image, 'mur.png'))
             self.mur=pygame.transform.smoothscale(mur, (ECHELLE*16,ECHELLE*16))
@@ -217,8 +217,8 @@ class JeuGraphique(object):
             self.surface.blit(surfp, (posx, posy ))
             nb_obj=-1
             for un_obj in serpent.get_bonus(le_serpent):
-               self.surface.blit(self.surf_objets[un_obj],(posx-self.delta//2,posy+(nb_obj*self.delta//2)))
-               nb_obj+=1
+                self.surface.blit(self.surf_objets[un_obj],(posx-self.delta//2,posy+(nb_obj*self.delta//2)))
+                nb_obj+=1
             texte = self.font.render(
                 contenu.format(nom[:15].ljust(15), str(points).rjust(5)), True,
                 couleur)
