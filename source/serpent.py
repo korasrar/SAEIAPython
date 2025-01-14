@@ -1,9 +1,3 @@
-dico_morad = {"nom_joueur": "morad", "num_joueur":1, "points":3, "positions":[[0,0],[1,0],[1,1]]
-,"tps_s":3, "tps_p":8, "tps_m":0, "direction":'N'}
-dico_celestin = {"nom_joueur": "celestin", "num_joueur":2, "points":6, "positions":[[0,0],[1,0],[1,1],[1,2]]
-,"tps_s":6, "tps_p":0, "tps_m":2, "direction":'S'}
-dico_clement = {"nom_joueur": "clement", "num_joueur":3, "points":5, "positions":[[0,0],[1,0],[1,1]]
-,"tps_s":0, "tps_p":1, "tps_m":9, "direction":'O'}
 # coding: utf-8
 """
             SAE1.02 SERPIUT'O
@@ -267,9 +261,7 @@ def serpent_2_str(serpent:dict, sep=";")->str:
     for (l,c) in serpent["positions"]:
         info = info + str(l) + sep + str(c) + sep
     info = info[:-1]
-    return info
-    
-print(serpent_2_str(dico_morad))
+    return info + '\n'
 
 def serpent_from_str(la_chaine, sep=";")->dict:
     """Reconstruit un serpent à partilist_serpent_split = la_chaine.split(sep)
@@ -287,7 +279,6 @@ def serpent_from_str(la_chaine, sep=";")->dict:
     for i in range(0,len(list_serpent_position)-1,2):
         list_serpent_position_check.append([int(list_serpent_position[i]),int(list_serpent_position[i+1])])
     return {"nom_joueur":list_serpent_values[0], "num_joueur":int(list_serpent_values[1]), "points":int(list_serpent_values[2]), "positions":list_serpent_position_check, "tps_s":int(list_serpent_values[3]), "tps_p":int(list_serpent_values[4]), "tps_m":int(list_serpent_values[5]), "direction":list_serpent_values[6]}
-print(serpent_from_str("morad;1;3;3;8;0;N\n0;0;1;0;1;1"))
 
 def copy_serpent(serpent:dict)->dict:
     """fait une copie du serpent passer en paramètres

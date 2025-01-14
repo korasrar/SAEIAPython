@@ -117,3 +117,5 @@ def affiche(matrice:dict, taille_cellule:int=4)->None:
             print(str(get_val(matrice, i, j)).rjust(taille_cellule) + '|', end='')
         affiche_ligne_separatrice(matrice, taille_cellule)
     print()
+test = Matrice(6,12)
+affiche(test)

@@ -69,3 +69,6 @@ if __name__ == '__main__':
             time.sleep(args.tempo)
 
     print("Partie terminée")
+
+
+
