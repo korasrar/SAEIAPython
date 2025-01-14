@@ -217,7 +217,6 @@ class JeuGraphique(object):
             self.surface.blit(surfp, (posx, posy ))
             nb_obj=-1
             for un_obj in serpent.get_bonus(le_serpent):
-                print(un_obj)
                 self.surface.blit(self.surf_objets[un_obj],(posx-self.delta//2,posy+(nb_obj*self.delta//2)))
                 nb_obj+=1
             texte = self.font.render(
