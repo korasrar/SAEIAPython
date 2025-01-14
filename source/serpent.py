@@ -73,9 +73,9 @@ def get_liste_pos(serpent:dict)->list:
         serpent (dict): le serpent considéré
 
     Returns:
-        list: la liste des positions occupées par le serpent
+        list: la liste des positions occupées par le sserpent
     """    
-    return serpent.get("positions",[])
+    return serpent["positions"]
 
 def get_queue(serpent:dict)->[int,int]:
     """retourne la position (lig,col) de la queue du serpent dans l'arène
@@ -135,7 +135,7 @@ def set_liste_pos(serpent:dict, tete:list):
         serpent (dict): le serpent considéré
         tete (list): la liste des positions occupées par ce serpent
     """    
-    serpent["position"] = tete
+    serpent["positions"] = tete
 
 def set_derniere_direction(serpent:dict, direction:str):
     """Met à jour la dernière direction utilisée par le serpent (utile pour l'affichage)
