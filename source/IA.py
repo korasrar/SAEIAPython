@@ -35,8 +35,35 @@ def directions_possibles(l_arene:dict,num_joueur:int)->str:
             pouvant être prise par le joueur. Attention il est possible
             qu'aucune direction ne soit possible donc la fonction peut retourner la chaine vide
     """    
-    direction = en
-    
+    """
+    res=''
+    mat=arene["matrice"]
+    nb_lig=matrice.get_nb_lignes(mat)
+    nb_col=matrice.get_nb_colonnes(mat)
+    lig_dep,col_dep=serpent.get_liste_pos(arene["serpents"][num_joueur-1])[0]
+    for dir in 'NOSE':
+        delta_lig,delta_col=DIRECTIONS[dir]
+        lig_arr=lig_dep+delta_lig
+        col_arr=col_dep+delta_col
+        if lig_arr<0 or lig_arr>=nb_lig or col_arr<0 or col_arr>=nb_col:
+            continue
+        if case.est_mur(matrice.get_val(mat,lig_arr,col_arr)):
+            continue
+        if case.get_proprietaire(matrice.get_val(mat,lig_arr,col_arr))==num_joueur:
+            continue
+        res+=dir
+    return res
+    """
+    direction = 'NOSE'
+    res = ''
+    position = arene.get_serpent(l_arene, num_joueur)[0]
+    for orient in direction:
+        if not arene.est_mur(l_arene, position[0], position[1]):
+            res += orient
+    return res
+
+def distance():
+    ...
 
 def objets_voisinage(l_arene:dict, num_joueur, dist_max:int):
     """Retourne un dictionnaire indiquant pour chaque direction possibles, 
@@ -52,7 +79,17 @@ def objets_voisinage(l_arene:dict, num_joueur, dist_max:int):
             (distance,val_objet,prop) où distance indique le nombre de cases jusqu'à l'objet et id_objet
             val_obj indique la valeur de l'objet ou de la boite et prop indique le propriétaire de la boite
     """
-    ...
+    dir_possibles = directions_possibles(l_arene,num_joueur)
+    val_obj = 0
+    prop = 0
+    coordo = ()
+    dict_voisins = {}
+    for direction in dir_possibles :
+        coordo = arene.get_serpent(l_arene,num_joueur)[0]+arene.DIRECTIONS[direction]
+        val_obj = arene.get_val_boite(coordo)
+        prop = arene.get_proprietaire(l_arene,coordo[0],coordo[1])
+        dict_voisins[direction] = [distance,val_obj,prop]
+    return dict_voisins
 
 
 def mon_IA2(num_joueur:int, la_partie:dict)->str:
