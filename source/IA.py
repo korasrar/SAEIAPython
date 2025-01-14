@@ -21,7 +21,7 @@ direction_prec='X' # variable indiquant la décision précédente prise par le j
 ### Toutes vos fonctions devront être documentées
 ####################################################################
 
-def directions_possibles(l_arene:dict,num_joueur:int)->str:
+def directions_possibles(l_arene:dict,num_joueur:int,coordone:tuple=())->str:
     """Indique les directions possible pour le joueur num_joueur
         c'est à dire les directions qu'il peut prendre sans se cogner dans
         un mur, sortir de l'arène ou se cogner sur une boîte trop grosse pour sa tête
@@ -35,35 +35,17 @@ def directions_possibles(l_arene:dict,num_joueur:int)->str:
             pouvant être prise par le joueur. Attention il est possible
             qu'aucune direction ne soit possible donc la fonction peut retourner la chaine vide
     """    
-    """
-    res=''
-    mat=arene["matrice"]
-    nb_lig=matrice.get_nb_lignes(mat)
-    nb_col=matrice.get_nb_colonnes(mat)
-    lig_dep,col_dep=serpent.get_liste_pos(arene["serpents"][num_joueur-1])[0]
-    for dir in 'NOSE':
-        delta_lig,delta_col=DIRECTIONS[dir]
-        lig_arr=lig_dep+delta_lig
-        col_arr=col_dep+delta_col
-        if lig_arr<0 or lig_arr>=nb_lig or col_arr<0 or col_arr>=nb_col:
-            continue
-        if case.est_mur(matrice.get_val(mat,lig_arr,col_arr)):
-            continue
-        if case.get_proprietaire(matrice.get_val(mat,lig_arr,col_arr))==num_joueur:
-            continue
-        res+=dir
-    return res
-    """
-    direction = 'NOSE'
     res = ''
-    position = arene.get_serpent(l_arene, num_joueur)[0]
-    for orient in direction:
-        if not arene.est_mur(l_arene, position[0], position[1]):
-            res += orient
+    if coordone != ():
+        for direction in arene.DIRECTIONS.keys():
+            if not arene.est_mur(l_arene, coordone[0] + arene.DIRECTIONS[direction][0], coordone[1] + arene.DIRECTIONS[direction][1]):
+                res += direction
+    else:
+        position = arene.get_serpent(l_arene, num_joueur)[0]
+        for direction in arene.DIRECTIONS.keys():
+            if not arene.est_mur(l_arene, position[0] + arene.DIRECTIONS[direction][0], position[1] + arene.DIRECTIONS[direction][1]):
+                res += direction
     return res
-
-def distance():
-    ...
 
 def objets_voisinage(l_arene:dict, num_joueur, dist_max:int):
     """Retourne un dictionnaire indiquant pour chaque direction possibles, 
@@ -83,17 +65,111 @@ def objets_voisinage(l_arene:dict, num_joueur, dist_max:int):
     val_obj = 0
     prop = 0
     coordo = ()
+    coordo_serpent = ()
     dict_voisins = {}
     for direction in dir_possibles :
-        coordo = arene.get_serpent(l_arene,num_joueur)[0]+arene.DIRECTIONS[direction]
+        coordo_serpent = arene.get_serpent(l_arene,num_joueur)[0]
+        coordo = (coordo_serpent[0]+arene.DIRECTIONS[direction][0],coordo_serpent[1]+arene.DIRECTIONS[direction][1])
         val_obj = arene.get_val_boite(coordo)
         prop = arene.get_proprietaire(l_arene,coordo[0],coordo[1])
+        distance = ...
         dict_voisins[direction] = [distance,val_obj,prop]
     return dict_voisins
 
+distance = 0
+
+def inondations(l_arene:dict,num_joueur:int,direction_possibles:str,dist_max:int):
+    arene_calque = arene.copy_arene(l_arene)
+    set_position = set()
+    #for direction in direction_possibles:   
+    """while distance < dist_max and direction_possibles != direction_prec :
+        for direction in direction_possibles:
+            coordo_serpent = arene.get_serpent(l_arene,num_joueur)[0]
+            coordone_direction = (coordo_serpent[0]+arene.DIRECTIONS[direction][0],coordo_serpent[1]+arene.DIRECTIONS[direction][1])
+            direction_prec = (coordone_direction[0],coordone_direction[1])
+            inondations(l_arene,num_joueur,direction_possibles(l_arene,num_joueur,coordone_direction))
+    """
+    list_direction_possible = direction_possibles
+    list_new_direction = []
+    val_obj = 0
+    dico_voisins = {}
+    while distancle != 5:
+        distance += 1
+        for direction in list_direction_possibles:
+            coordo_serpent = arene.get_serpent(l_arene,num_joueur)[0]
+            coordo = (coordo_serpent[0]+arene.DIRECTIONS[direction][0],coordo_serpent[1]+arene.DIRECTIONS[direction][1])
+            val_obj = arene.get_val_boite(coordo)
+            if arene.est_bonus(l_arene,coordo[0],coordo[1]):
+                dico_voisins[]
+
+
+    for direction in direction_possibles :
+        coordo_serpent = arene.get_serpent(l_arene,num_joueur)[0]
+        coordone_direction = (coordo_serpent[0]+arene.DIRECTIONS[direction][0],coordo_serpent[1]+arene.DIRECTIONS[direction][1])
+        direction_prec = (coordone_direction[0],coordone_direction[1])
+            val_obj = arene.get_val_boite(coordo)
+            if val_obj > 0:
+                dict_inondation[direction].append((distance, val_obj, prop))
+        while distance < dist_max :
+            inondations
+
+
+    arene_calque = arene.copy_arene(l_arene)
+    dict_inondation = {}
+    for direction in direction_possibles:
+        coordo_serpent = arene.get_serpent(l_arene, num_joueur)[0]
+        coordo = coordo_serpent
+        distance = 0
+        val_obj = arene.get_val_boite(coordo)
+            if val_obj > 0:
+                dict_inondation[direction].append((distance, val_obj, prop))
+
+        while distance < dist_max:
+            inondations
+            
+    return dict_inondation
+
+    direction_possibles = []
+    str_past_direction = ''
+    distance
+    for direction in new_dir_possible:
+        coordo_serpent = arene.get_serpent(l_arene,num_joueur)[0]
+        coordone_direction = (coordo_serpent[0]+arene.DIRECTIONS[direction][0],coordo_serpent[1]+arene.DIRECTIONS[direction][1])
+        new_dir_possible = direction_possibles(l_arene,num_joueur,coordone_direction[0],coordone_direction[1])
+        str_past_direction += direction
+        while distance < dist_max :
+            inondations()
+            
+
+    val_obj = 0
+    prop = 0
+    distance = 0
+    str_direction_possible = direction_possibles(le_plateau,position_depart)
+    coordo_serpent = arene.get_serpent(l_arene,num_joueur)[0]
+    str_ancienne_direction = ''
+    set_future_voisins = set()
+    dict_voisinages = {}
+    check = False
+    while not check:
+        distance += 1
+        for direction in str_direction_possible:
+            coordone_direction = (coordo_serpent[0]+arene.DIRECTIONS[direction][0],coordo_serpent[1]+arene.DIRECTIONS[direction][1])
+            val_obj = arene.get_val_boite(coordone_direction)
+            str_ancienne_direction += direction
+            if arene.est_bonus(val_obj) :
+                dict_voisinages[str_ancienne_direction] = [distance,val_obj,prop]
+                set_future_voisins = directions_possibles(l_arene,num_joueur,coordone_direction) 
+            if distance < dist_max or :
+                    check = True
+        set_position_voisins = set_future_voisins
+        set_future_voisins = set()
+    return plateau_claque
+print(fabrique_le_calque(plateau_test,(4,2)))
+ind
 
 def mon_IA2(num_joueur:int, la_partie:dict)->str:
     return 'N'
+
 def mon_IA(num_joueur:int, la_partie:dict)->str:
     """Fonction qui va prendre la decision du prochain coup pour le joueur de numéro ma_couleur
 
