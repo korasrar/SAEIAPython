@@ -105,11 +105,11 @@ def get_bonus(serpent:dict)->list:
     """  
     bonus_restant = []
     if serpent["tps_s"]>0 :
-        bonus_restant.append("tps_s")
+        bonus_restant.append(arene.SURPUISSANCE)
     if serpent["tps_p"]>0 :
-        bonus_restant.append("tps_p")
+        bonus_restant.append(arene.PROTECTION)
     if serpent["tps_m"]>0 :
-        bonus_restant.append("tps_m")
+        bonus_restant.append(arene.MANGE_MUR)
     return bonus_restant
 
 
@@ -200,7 +200,7 @@ def ajouter_temps_protection(serpent:dict, temps:int)->int:
     Returns:
         int: le nombre de tours total restant pour ce bonus
     """    
-    serpent["tps_p"] = serpent.get("tps_p",0) + temps 
+    serpent["tps_p"] = serpent.get("tps_p",0) + temps
     return serpent["tps_p"]
 
 def ajouter_temps_mange_mur(serpent:dict, temps:int)->int:
@@ -213,7 +213,7 @@ def ajouter_temps_mange_mur(serpent:dict, temps:int)->int:
     Returns:
         int: le nombre de tours total restant pour ce bonus
     """    
-    serpent["tps_m"] = serpent.get("tps_m",0) + temps 
+    serpent["tps_m"] = serpent.get("tps_m",0) + temps
     return serpent["tps_m"]
 
 def ajouter_temps_surpuissance(serpent:dict, temps:int)->int:
@@ -226,7 +226,7 @@ def ajouter_temps_surpuissance(serpent:dict, temps:int)->int:
     Returns:
         int: le nombre de tours total restant pour ce bonus
     """ 
-    serpent["tps_s"] = serpent.get("tps_s",0) + temps 
+    serpent["tps_s"] = serpent.get("tps_s",0) + temps
     return serpent["tps_s"]
 
 def maj_temps(serpent:dict):
@@ -236,11 +236,12 @@ def maj_temps(serpent:dict):
     Args:
         serpent (dict): le serpent considéré
     """ 
-    if serpent["tps_s"]>0 :
+    bonus = get_bonus(serpent)
+    if arene.SURPUISSANCE in bonus :
         serpent["tps_s"] -= 1
-    if serpent["tps_m"]>0 :
+    if arene.MANGE_MUR in bonus :
         serpent["tps_m"] -= 1
-    if serpent["tps_p"]>0 :
+    if arene.PROTECTION in bonus :
         serpent["tps_p"] -= 1
 
 def serpent_2_str(serpent:dict, sep=";")->str:
