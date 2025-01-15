@@ -38,7 +38,7 @@ if __name__ == '__main__':
     arene.ajouter_des_boites_ou_bonus(l_arene,1,2,args.nb_joueurs)
     arene.afficher_arene(l_arene)
     print("partie:",partie.get_nom_partie(la_partie),"duree totale:",partie.get_duree_totale(la_partie),
-          "duree restante:",partie.get_temps_restant(la_partie))
+        "duree restante:",partie.get_temps_restant(la_partie))
     rep=input("Q pour quitter, ENTREE pour continuer ").upper()
     liste_num_joueurs=[nj for nj in range(1,partie.get_nb_joueurs(la_partie)+1)]
     while not partie.est_fini(la_partie) and rep!='Q':

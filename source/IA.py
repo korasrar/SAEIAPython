@@ -22,7 +22,18 @@ direction_prec='X' # variable indiquant la décision précédente prise par le j
 ### Toutes vos fonctions devront être documentées
 ####################################################################
 
-def directions_possibles(l_arene:dict,num_joueur:int,coordone:tuple=())->str:
+def est_pas_mur(l_arene, lgn, col, direction):
+    if not arene.est_mur(l_arene, lgn + arene.DIRECTIONS[direction][0], col + arene.DIRECTIONS[direction][1]):
+        return True
+    return False
+
+def est_pas_sortie(lgn_tete, col_tete, lgn_are, col_are, direction):
+    if lgn_tete + arene.DIRECTIONS[direction][0] > 0 and lgn_tete + arene.DIRECTIONS[direction][0] < lgn_are:
+        if col_tete + arene.DIRECTIONS[direction][1] > 0 and col_tete + arene.DIRECTIONS[direction][1] < col_are:
+            return True
+    return False
+
+def directions_possibles(l_arene:dict,coordonnees:tuple)->str:
     """Indique les directions possible pour le joueur num_joueur
         c'est à dire les directions qu'il peut prendre sans se cogner dans
         un mur, sortir de l'arène ou se cogner sur une boîte trop grosse pour sa tête
@@ -39,63 +50,64 @@ def directions_possibles(l_arene:dict,num_joueur:int,coordone:tuple=())->str:
     lgn = arene.get_dim(l_arene)[0]
     col = arene.get_dim(l_arene)[1]
     res = ''
-    tete_lgn = arene.get_serpent(l_arene, num_joueur)[0][0]
-    tete_col = arene.get_serpent(l_arene, num_joueur)[0][1]
+    tete_lgn = coordonnees[0]  
+    tete_col = coordonnees[1]
     for direction in arene.DIRECTIONS:
-        if est_pas_mur(l_arene, tete_lgn, tete_col, direction):
-            if est_pas_sortie(tete_lgn, tete_col,direction):
+        if est_pas_sortie(tete_lgn, tete_col,lgn,col,direction):
+            if est_pas_mur(l_arene, tete_lgn, tete_col, direction):
                 res += direction
+    res = dico_finale(res, tete_lgn, tete_col)
     return res
 
-def est_pas_mur(l_arene, lgn, col, direction):
-    if not arene.est_mur(l_arene, lgn + arene.DIRECTIONS[direction][0], col + arene.DIRECTIONS[direction][1]):
-        return True
-    return False
-
-def est_pas_sortie(lgn, col, direction):
-    if lgn + arene.DIRECTIONS[direction][0] > 0 and lgn + arene.DIRECTIONS[direction][0] < lgn:
-        if col + arene.DIRECTIONS[direction][1] > 0 and col + arene.DIRECTIONS[direction][1] < col:
-            return True
-    return False
+def dico_finale(direc_pos, lgn_tete, col_tete):
+    dico = {}
+    dico["direction"] = direc_pos
+    dico["coordonnees"] = set()
+    for direct in direc_pos:
+        dico["coordonnees"].add((lgn_tete + arene.DIRECTIONS[direct][0], col_tete + arene.DIRECTIONS[direct][1]))
+    return dico
 
 def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int):
-    """Retourne un dictionnaire indiquant pour chaque direction possibles, 
-        les objets ou boites pouvant être mangés par le serpent du joueur et
-        se trouvant dans voisinage de la tête du serpent 
-
+    """Retourne un ensemble de coordonées accessibles par rapport a dist_max
     Args:
         l_arene (dict): l'arène considérée
         num_joueur (int): le numéro du joueur considéré
         dist_max (int): le nombre de cases maximum qu'on s'autorise à partir du point de départ
     Returns:
-        dict: un dictionnaire dont les clés sont des directions  et les valeurs une liste de triplets
-            (distance,val_objet,prop) où distance indique le nombre de cases jusqu'à l'objet et id_objet
-            val_obj indique la valeur de l'objet ou de la boite et prop indique le propriétaire de la boite
+        set: un ensemble avec les coordonées accessibles par le serpent
     """
-    def getcoordonee(position,direction='') :
-        coordone = set()
-        if direction != '':
-            for dir in direction :
-                coordone.add((position[0]+arene.DIRECTIONS[dir][0],position[1]+arene.DIRECTIONS[dir][1]))
-        else : 
-            coordone.add((position[0],position[1]))
-        return coordone
+    #{"direction":str,"coordone":set}
     distance = 0
     position_serpent = arene.get_serpent(l_arene,num_joueur)
     tete_serpent = position_serpent[0]
-    str_direction_voisin = arene.directions_possibles(l_arene,num_joueur)
-    set_position_voisin = getcoordonee(str_direction_voisin)
-    set_future_voisins = getcoordonee(str_direction_voisin)
+    str_direction_voisin = directions_possibles(l_arene,tete_serpent)["direction"]
+    set_position_voisin = directions_possibles(l_arene,tete_serpent)["coordonnees"]
+    set_future_voisins = directions_possibles(l_arene,tete_serpent)["coordonnees"]
+    set_position_bonus = set()
     check = False
     while not check:
         distance += 1
+        set_voisin_temp = set()
         for position in set_future_voisins:
-            set_future_voisins = set_future_voisins.union(map(getcoordonee(position,arene.directions_possibles(l_arene,num_joueur))))
-            if distance >= dist_max:
-                    check = True
-        set_position_voisins = set_future_voisins
-        set_future_voisins = set()
-    return set_position_voisins
+            voisin_pos = directions_possibles(l_arene,position)["coordonnees"]
+            set_voisin_temp|=voisin_pos
+        if distance >= dist_max:
+            check = True
+        set_future_voisins = set_voisin_temp
+        set_position_voisin|=set_voisin_temp
+    for bonus in set_position_voisin:
+            if arene.est_bonus(l_arene,bonus[0],bonus[1]): 
+                set_position_bonus.add(bonus)
+    set_position_voisin = set()
+    return set_position_bonus
+
+def createdicobonus(l_arene:dict,set_position_bonus:tuple):
+    dico_bonus = {}
+    for pos_bonus in set_position_bonus:
+        val_bonus = arene.get_val_boite(l_arene,pos_bonus[0],pos_bonus[1])
+        if val_bonus not in dico_bonus:
+            dico_bonus[val_bonus] = pos_bonus
+    return dico_bonus
 
 def mon_IA2(num_joueur:int, la_partie:dict)->str:
     return 'N'
@@ -112,9 +124,11 @@ def mon_IA(num_joueur:int, la_partie:dict)->str:
     """
     direction=random.choice("NSEO")
     direction_prec=direction #La décision prise sera la direction précédente le prochain tour
-    dir_pos=arene.directions_possibles(partie.get_arene(la_partie),num_joueur)
-    print(arene.directions_possibles(partie.get_arene(la_partie),2))
-    print(objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=4))
+    l_arene = partie.get_arene(la_partie)
+    dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"]
+    print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"])
+    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=5))
+    print("dico bonus",createdicobonus(l_arene,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=5)))
     if dir_pos=='':
         direction=random.choice('NOSE')
     else:
@@ -140,37 +154,7 @@ if __name__=="__main__":
             le_client.envoyer_commande_client(actions_joueur)
     le_client.afficher_msg("terminé")
 """
-def avancer_tour(temps_restant):
-    if temps_restant < 50:
-        pass
-    elif temps_restant >=50 and temps_restant < 100:
-        pass
-    else:  
-        pass    
-    
-def strategie():
-    pass 
-def priorite_phase_1(l_arene, num_joueur ): #ordre de prise des bonus pour les 50 premier tours
-    ordre = []
-    score_tete = arene.get_val_boite(l_arene, arene.get_serpent(l_arene, num_joueur)[0],arene.get_serpent(l_arene, num_joueur)[1])
-    if score_tete < 2:
-        ordre = [1]
-    else:
-        ordre = [2,1,-2,-1]
-def clas_joueur():
-    classement = []
-    for i in range(1,5):
-        classement.append(i, )
-def focus(classement):
-        si
-        
-def priorite_phase_2(): #ordre de prise des bonus de 100 à 150 tours
-    pass
-def radar_serpent():
-    pass
 
-def choix_direction():
-    pass
 """
 """
     val_obj = 0
