@@ -21,7 +21,6 @@ les_IA={1:IA.mon_IA,2:IA.mon_IA,3:IA.mon_IA,4:IA.mon_IA}
 
 if __name__ == '__main__': 
     print("Bienvenue dans le jeu du SerpIUT'O")
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--nom_partie", dest="nom_partie", help="nom de la partie", type=str, default='score.csv')
     parser.add_argument("--duree", dest="duree", help="nombre de tours de la partie", type=int, default=150)

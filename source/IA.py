@@ -72,6 +72,107 @@ def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int):
             (distance,val_objet,prop) où distance indique le nombre de cases jusqu'à l'objet et id_objet
             val_obj indique la valeur de l'objet ou de la boite et prop indique le propriétaire de la boite
     """
+    def getcoordonee(position,direction='') :
+        coordone = set()
+        if direction != '':
+            for dir in direction :
+                coordone.add((position[0]+arene.DIRECTIONS[dir][0],position[1]+arene.DIRECTIONS[dir][1]))
+        else : 
+            coordone.add((position[0],position[1]))
+        return coordone
+    distance = 0
+    position_serpent = arene.get_serpent(l_arene,num_joueur)
+    tete_serpent = position_serpent[0]
+    str_direction_voisin = arene.directions_possibles(l_arene,num_joueur)
+    set_position_voisin = getcoordonee(str_direction_voisin)
+    set_future_voisins = getcoordonee(str_direction_voisin)
+    check = False
+    while not check:
+        distance += 1
+        for position in set_future_voisins:
+            set_future_voisins = set_future_voisins.union(map(getcoordonee(position,arene.directions_possibles(l_arene,num_joueur))))
+            if distance >= dist_max:
+                    check = True
+        set_position_voisins = set_future_voisins
+        set_future_voisins = set()
+    return set_position_voisins
+
+def mon_IA2(num_joueur:int, la_partie:dict)->str:
+    return 'N'
+
+def mon_IA(num_joueur:int, la_partie:dict)->str:
+    """Fonction qui va prendre la decision du prochain coup pour le joueur de numéro ma_couleur
+
+    Args:
+        num_joueur (int): un entier désignant le numero du joueur qui doit prendre la décision
+        la_partie (dict): structure qui contient la partie en cours
+
+    Returns:
+        str: une des lettres 'N', 'S', 'E' ou 'O' indiquant la direction que prend la tête du serpent du joueur
+    """
+    direction=random.choice("NSEO")
+    direction_prec=direction #La décision prise sera la direction précédente le prochain tour
+    dir_pos=arene.directions_possibles(partie.get_arene(la_partie),num_joueur)
+    print(arene.directions_possibles(partie.get_arene(la_partie),2))
+    print(objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=4))
+    if dir_pos=='':
+        direction=random.choice('NOSE')
+    else:
+        direction=random.choice(dir_pos)
+    return direction
+
+if __name__=="__main__":
+    parser = argparse.ArgumentParser()  
+    parser.add_argument("--equipe", dest="nom_equipe", help="nom de l'équipe", type=str, default='Non fournie')
+    parser.add_argument("--serveur", dest="serveur", help="serveur de jeu", type=str, default='localhost')
+    parser.add_argument("--port", dest="port", help="port de connexion", type=int, default=1111)
+    
+    args = parser.parse_args()
+    le_client=client.ClientCyber()
+    le_client.creer_socket(args.serveur,args.port)
+    le_client.enregistrement(args.nom_equipe,"joueur")
+    ok=True
+    while ok:
+        ok,id_joueur,le_jeu,_=le_client.prochaine_commande()
+        if ok:
+            la_partie=partie.partie_from_str(le_jeu)
+            actions_joueur=mon_IA(int(id_joueur),la_partie)
+            le_client.envoyer_commande_client(actions_joueur)
+    le_client.afficher_msg("terminé")
+"""
+def avancer_tour(temps_restant):
+    if temps_restant < 50:
+        pass
+    elif temps_restant >=50 and temps_restant < 100:
+        pass
+    else:  
+        pass    
+    
+def strategie():
+    pass 
+def priorite_phase_1(l_arene, num_joueur ): #ordre de prise des bonus pour les 50 premier tours
+    ordre = []
+    score_tete = arene.get_val_boite(l_arene, arene.get_serpent(l_arene, num_joueur)[0],arene.get_serpent(l_arene, num_joueur)[1])
+    if score_tete < 2:
+        ordre = [1]
+    else:
+        ordre = [2,1,-2,-1]
+def clas_joueur():
+    classement = []
+    for i in range(1,5):
+        classement.append(i, )
+def focus(classement):
+        si
+        
+def priorite_phase_2(): #ordre de prise des bonus de 100 à 150 tours
+    pass
+def radar_serpent():
+    pass
+
+def choix_direction():
+    pass
+"""
+"""
     val_obj = 0
     prop = 0 
     print(arene.get_serpent(l_arene,num_joueur)[0])
@@ -100,93 +201,6 @@ def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int):
             if len(str_ancienne_direction) < dist_max :
                     check = True
     return dict_voisinages
+"""
 
-    def getcoordonee(position,direction) :
-        position[0]+arene.DIRECTIONS[direction][0],position[1]+arene.DIRECTIONS[direction][1]
-    distance = 0
-    position_serpent = arene.get_serpent(l_arene,num_joueur)
-    tete_serpent = position_serpent[0]
-    str_direction_voisin = directions_possibles(l_arene,tete_serpent)
-    set_coordone_voisin
-    set_future_voisins = set()  
-    check = False
-    while not check:
-        distance += 1
-        for direction in set_direction_voisins:
-            if est_pas_mur() :
-                set_future_voisins = set_future_voisins.union(map(getcoordonee(directions_possibles(l_arene,direction))))
-            if distance >= dist_max:
-                    check = True
-        set_position_voisins = set_future_voisins
-        set_future_voisins = set()
-    return set_position_voisins
-
-def mon_IA2(num_joueur:int, la_partie:dict)->str:
-    return 'N'
-
-def mon_IA(num_joueur:int, la_partie:dict)->str:
-    """Fonction qui va prendre la decision du prochain coup pour le joueur de numéro ma_couleur
-
-    Args:
-        num_joueur (int): un entier désignant le numero du joueur qui doit prendre la décision
-        la_partie (dict): structure qui contient la partie en cours
-
-    Returns:
-        str: une des lettres 'N', 'S', 'E' ou 'O' indiquant la direction que prend la tête du serpent du joueur
-    """
-    direction=random.choice("NSEO")
-    direction_prec=direction #La décision prise sera la direction précédente le prochain tour
-    dir_pos=directions_possibles(partie.get_arene(la_partie),num_joueur)
-    #print(objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=4))
-    if dir_pos=='':
-        direction=random.choice('NOSE')
-    else:
-        direction=random.choice(dir_pos)
-    return direction
-
-if __name__=="__main__":
-    parser = argparse.ArgumentParser()  
-    parser.add_argument("--equipe", dest="nom_equipe", help="nom de l'équipe", type=str, default='Non fournie')
-    parser.add_argument("--serveur", dest="serveur", help="serveur de jeu", type=str, default='localhost')
-    parser.add_argument("--port", dest="port", help="port de connexion", type=int, default=1111)
-    
-    args = parser.parse_args()
-    le_client=client.ClientCyber()
-    le_client.creer_socket(args.serveur,args.port)
-    le_client.enregistrement(args.nom_equipe,"joueur")
-    ok=True
-    while ok:
-        ok,id_joueur,le_jeu,_=le_client.prochaine_commande()
-        if ok:
-            la_partie=partie.partie_from_str(le_jeu)
-            actions_joueur=mon_IA(int(id_joueur),la_partie)
-            le_client.envoyer_commande_client(actions_joueur)
-    le_client.afficher_msg("terminé")
-
-def avancer_tour(temps_restant):
-    if temps_restant < 50:
-        pass
-    elif temps_restant >=50 and temps_restant < 100:
-        pass
-    else:  
-        pass
-def comparateur(restant_evo, tresor, radar):    
-    
-def strategie():
-    pass 
-def priorite_phase_1(l_arene, num_joueur ): #ordre de prise des bonus pour les 50 premier tours
-    ordre = []
-    score_tete = arene.get_val_boite(l_arene, arene.get_serpent(l_arene, num_joueur)[0],arene.get_serpent(l_arene, num_joueur)[1])
-    if score_tete < 2:
-        ordre = [1]
-    else:
-        ordre = [2,1,-2,-1]
-    
-        
-def priorite_phase_2(): #ordre de prise des bonus de 100 à 150 tours
-    pass
-def radar_serpent():
-    pass
-
-def choix_direction():
-    pass
+"""arene["serpent"][numjoueur-1]["points"]"""

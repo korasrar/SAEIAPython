@@ -49,7 +49,7 @@ def get_num_joueur(serpent:dict)->int:
     """   
     return serpent["num_joueur"]
 
-def get_points(serpent:dict)->int:
+def l(serpent:dict)->int:
     """retourne le nombre de points du joueur associé au serpent
 
     Args:
