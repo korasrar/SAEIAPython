@@ -180,7 +180,7 @@ def prio_strategie_1(l_arene:dict, num_joueur:int,dico_info:dict ): #ordre de pr
         ordre.append(1)
         return ordre
     else:
-        ordre.append(2,1,-2,-1)
+        ordre.append(2, -1, -2 ,1)
         return ordre
 
 
