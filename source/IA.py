@@ -213,6 +213,7 @@ def strategie_1(dico_info:dict):
     object_choisie = 0
     for prio in prio_ordre:
         if prio in dico_info["objets_voisins"]:
+            print(dico_info["objets_voisins"][prio])
             chemin_prio = fabrique_chemin(dico_info["arene"],dico_info["positions"][0],dico_info["objets_voisins"][prio])
             if est_ateignable(dico_info["objets_voisins"][prio],dico_info,chemin_prio) :
                 if len(chemin_prio) == 1:
@@ -267,19 +268,19 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple):
         res = directions_possibles(l_arene, position)
         voisins = res["coordonnees"]
         return voisins
-    file_position = [(position_serpent,[position_serpent])] #methode de séquence file
-    chemin = [] 
+    file_position = [(position_serpent, [position_serpent])]  # méthode de séquence file
     deja_visite = set()
     deja_visite.add(position_serpent)
+
     while file_position:
-        position,chemin = file_position.pop(0) #je retire le première élément de la file et le met dans position
+        position, chemin = file_position.pop(0)  # je retire le premier élément de la file et le mets dans position
         if position == position_bonus:
-            chemin.append(position_bonus)
-        for voisin in voisins_possibles(l_arene,position):
+            return chemin
+        for voisin in voisins_possibles(l_arene, position):
             if voisin not in deja_visite:
                 deja_visite.add(voisin)
-                file_position.append((voisin,chemin+[voisin])) 
-    return chemin
+                file_position.append((voisin, chemin + [voisin]))  
+    return []
 
 """
 postion_bonus
@@ -290,7 +291,6 @@ postion_bonus
 
 def mon_IA2(num_joueur:int, la_partie:dict)->str:
     return 'N'
-
 def mon_IA(num_joueur:int, la_partie:dict)->str:
     """Fonction qui va prendre la decision du prochain coup pour le joueur de numéro ma_couleur
 
@@ -325,7 +325,7 @@ def mon_IA(num_joueur:int, la_partie:dict)->str:
     l_arene = partie.get_arene(la_partie)
     dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"]
     print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"])
-    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=5))
+    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=40))
     if dir_pos=='':
         direction=random.choice('NOSE')
     else:
