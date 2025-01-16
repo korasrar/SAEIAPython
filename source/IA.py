@@ -53,7 +53,8 @@ def directions_possibles(l_arene:dict,coordonnees:tuple)->str:
     for direction in arene.DIRECTIONS:
         if est_pas_sortie(tete_lgn, tete_col,lgn,col,direction):
             if est_pas_mur(l_arene, tete_lgn, tete_col, direction):
-                res += direction
+                if arene.get_serpent(l_arene, num_joueur)
+                    res += direction
     res = dico_finale(res, tete_lgn, tete_col)
     return res
 
@@ -180,7 +181,7 @@ def prio_strategie_1(l_arene:dict, num_joueur:int,dico_info:dict ): #ordre de pr
         ordre.append(1)
         return ordre
     else:
-        ordre.append(2, -1, -2 ,1)
+        ordre = [2, -1, -2 ,1]
         return ordre
 
 
@@ -270,7 +271,7 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple):
         return voisins
     file_position = [(position_serpent, [position_serpent])]  # méthode de séquence file
     deja_visite = set()
-    deja_visite.add(position_serpent)
+    deja_visite.add(tuple(position_serpent))
 
     while file_position:
         position, chemin = file_position.pop(0)  # je retire le premier élément de la file et le mets dans position

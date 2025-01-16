@@ -1,11 +1,13 @@
 test = "nom_j;num_j;nb_point;tps_surpuissance;tps_mange_mur;tps_protection "
 "lig1;col1;lig2;col2;..."
        
-python3 affichage.py&
+python3 affichage.py
 python3 IA.py --equipe joueur1&
 python3 IA.py --equipe joueur2&
 python3 IA.py --equipe joueur3&
 python3 IA.py --equipe joueur4&
+
+py affichage.py;py IA.py --equipe joueur1;py IA.py --equipe joueur2;py IA.py --equipe joueur3;py IA.py --equipe joueur4
 
 {'matrice': {'nb_lig': 15, 'nb_col': 25,
              'valeurs': {(0, 0): {'mur': False, 'valeur': 0, 'proprietaire': 0, 'temps_restant': 0},
