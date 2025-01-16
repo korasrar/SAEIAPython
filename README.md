@@ -24,11 +24,11 @@ git clone https://github.com/korasrar/SAEIAPython
 #### Pendant les 0 -> 50 prochain tour :
 - ADDITION
 - Récuperer les trésors les plus proches ( priorité nv2 ) 
-- Esquiver les autres serpents
+- Esquiver les autres serpents  
 #### Pendant les 50 -> 100 prochain tour :
 - MULTIPLICATION
 - PROTECTION
-- Rester le plus court possible
+- Rester le plus court possible  
 #### Pendant les 100 -> 150 prochain tour :
 - PROTECTION
 

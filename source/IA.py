@@ -101,13 +101,14 @@ def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int):
     set_position_voisin = set()
     return set_position_bonus
 
-def createdicobonus(l_arene:dict,set_position_bonus:tuple):
+def create_dico_bonus(l_arene:dict,set_position_bonus:tuple):
     dico_bonus = {}
     for pos_bonus in set_position_bonus:
         val_bonus = arene.get_val_boite(l_arene,pos_bonus[0],pos_bonus[1])
         if val_bonus not in dico_bonus:
             dico_bonus[val_bonus] = pos_bonus
     return dico_bonus
+# verif serpent
 
 def mon_IA2(num_joueur:int, la_partie:dict)->str:
     return 'N'
@@ -128,11 +129,12 @@ def mon_IA(num_joueur:int, la_partie:dict)->str:
     dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"]
     print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"])
     print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=5))
-    print("dico bonus",createdicobonus(l_arene,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=5)))
+    print("dico bonus",create_dico_bonus(l_arene,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=5)))
     if dir_pos=='':
         direction=random.choice('NOSE')
     else:
         direction=random.choice(dir_pos)
+        # appelle fonction
     return direction
 
 if __name__=="__main__":
@@ -153,38 +155,3 @@ if __name__=="__main__":
             actions_joueur=mon_IA(int(id_joueur),la_partie)
             le_client.envoyer_commande_client(actions_joueur)
     le_client.afficher_msg("terminé")
-"""
-
-"""
-"""
-    val_obj = 0
-    prop = 0 
-    print(arene.get_serpent(l_arene,num_joueur)[0])
-    set_future_voisins = set()
-    coordo_serpent = arene.get_serpent(l_arene,num_joueur)[0]
-    set_future_voisins.update(coordo_serpent) # coordone serpent
-    str_direction_possible = directions_possibles(l_arene,num_joueur,arene.get_serpent(l_arene,num_joueur)[0])
-    str_ancienne_direction = ''
-    dict_voisinages = {}
-    check = False
-    while not check:
-        print(set_future_voisins)
-        for coordone in set_future_voisins:
-            str_direction_possible = directions_possibles(l_arene,num_joueur,coordone)
-            print(str_direction_possible)
-            for direction in str_direction_possible:
-                set_future_voisins.add((coordone[0]+arene.DIRECTIONS[direction][0],coordone[1]+arene.DIRECTIONS[direction][1]))
-                print(set_future_voisins)
-                str_ancienne_direction += direction
-                print(str_ancienne_direction)
-            if arene.est_bonus(l_arene,coordone[0],coordone[1]):
-                dict_voisinages[str_ancienne_direction] = [
-                    len(str_ancienne_direction),
-                    arene.get_val_boite(coordone_direction),
-                    arene.get_proprietaire(l_arene,coordone[0],coordone[1])]
-            if len(str_ancienne_direction) < dist_max :
-                    check = True
-    return dict_voisinages
-"""
-
-"""arene["serpent"][numjoueur-1]["points"]"""
