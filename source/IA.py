@@ -33,7 +33,7 @@ def est_pas_sortie(lgn_tete, col_tete, lgn_are, col_are, direction):
             return True
     return False
 
-def directions_possibles(l_arene:dict,coordonnees:tuple)->str:
+def directions_possibles(l_arene:dict,coordonnees:tuple, dico_info)->dict:
     """Indique les directions possible pour le joueur num_joueur
         c'est à dire les directions qu'il peut prendre sans se cogner dans
         un mur, sortir de l'arène ou se cogner sur une boîte trop grosse pour sa tête
@@ -45,6 +45,23 @@ def directions_possibles(l_arene:dict,coordonnees:tuple)->str:
     Returns:
         dict: 
     """ 
+    def dico_finale(direc_pos, lgn_tete, col_tete):
+        """Créer le dico final avec les directions possibles et les coordonées possibles
+
+        Args:
+            direc_pos (_type_): _description_
+            lgn_tete (_type_): _description_
+            col_tete (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """        
+        dico = {}
+        dico["direction"] = direc_pos
+        dico["coordonnees"] = set()
+        for direct in direc_pos:
+            dico["coordonnees"].add((lgn_tete + arene.DIRECTIONS[direct][0], col_tete + arene.DIRECTIONS[direct][1]))
+        return dico
     lgn = arene.get_dim(l_arene)[0]
     col = arene.get_dim(l_arene)[1]
     res = ''
@@ -53,20 +70,23 @@ def directions_possibles(l_arene:dict,coordonnees:tuple)->str:
     for direction in arene.DIRECTIONS:
         if est_pas_sortie(tete_lgn, tete_col,lgn,col,direction):
             if est_pas_mur(l_arene, tete_lgn, tete_col, direction):
-                if arene.get_serpent(l_arene, num_joueur)
+                if est_pas_serpent(direction, dico_info):
                     res += direction
+                else:
+                    print("je suis serpent")
     res = dico_finale(res, tete_lgn, tete_col)
     return res
+    
+def est_pas_serpent(direction, dico_info):
+    lgn = dico_info["positions"][0][0]
+    col = dico_info["positions"][0][1]
+    direc_pos = (lgn +  arene.DIRECTIONS[direction][0] , col +  arene.DIRECTIONS[direction][1])
+    if not direc_pos in dico_info["positions"]:
+        return True
+    return False
 
-def dico_finale(direc_pos, lgn_tete, col_tete):
-    dico = {}
-    dico["direction"] = direc_pos
-    dico["coordonnees"] = set()
-    for direct in direc_pos:
-        dico["coordonnees"].add((lgn_tete + arene.DIRECTIONS[direct][0], col_tete + arene.DIRECTIONS[direct][1]))
-    return dico
 
-def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int):
+def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int,dico_info:dict):
     """Retourne un ensemble de coordonées accessibles par rapport a dist_max
     Args:
         l_arene (dict): l'arène considérée
@@ -94,16 +114,16 @@ def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int):
     distance = 0
     position_serpent = arene.get_serpent(l_arene,num_joueur)
     tete_serpent = position_serpent[0]
-    str_direction_voisin = directions_possibles(l_arene,tete_serpent)["direction"]
-    set_position_voisin = directions_possibles(l_arene,tete_serpent)["coordonnees"]
-    set_future_voisins = directions_possibles(l_arene,tete_serpent)["coordonnees"]
+    str_direction_voisin = directions_possibles(l_arene,tete_serpent,dico_info)["direction"]
+    set_position_voisin = directions_possibles(l_arene,tete_serpent,dico_info)["coordonnees"]
+    set_future_voisins = directions_possibles(l_arene,tete_serpent,dico_info)["coordonnees"]
     set_position_bonus = set()
     check = False
     while not check:
         distance += 1
         set_voisin_temp = set()
         for position in set_future_voisins:
-            voisin_pos = directions_possibles(l_arene,position)["coordonnees"]
+            voisin_pos = directions_possibles(l_arene,position,dico_info)["coordonnees"]
             set_voisin_temp|=voisin_pos
         if distance >= dist_max:
             check = True
@@ -215,7 +235,7 @@ def strategie_1(dico_info:dict):
     for prio in prio_ordre:
         if prio in dico_info["objets_voisins"]:
             print(dico_info["objets_voisins"][prio])
-            chemin_prio = fabrique_chemin(dico_info["arene"],dico_info["positions"][0],dico_info["objets_voisins"][prio])
+            chemin_prio = fabrique_chemin(dico_info["arene"],dico_info["positions"][0],dico_info["objets_voisins"][prio],dico_info)
             if est_ateignable(dico_info["objets_voisins"][prio],dico_info,chemin_prio) :
                 if len(chemin_prio) == 1:
                     return find_direction(dico_info["objets_voisins"][prio],dico_info)
@@ -244,7 +264,7 @@ def find_direction(coordone_bonus:tuple,dico_info:dict):
             return direct
 
 
-def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple):
+def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple,dico_info:dict):
     """Renvoie le plus court chemin entre position_serpent position_bonus
 
     Args:
@@ -256,7 +276,7 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple):
         list: Une liste de positions entre position_bonus et position_serpent
         qui représente un plus court chemin entre les deux positions (sans position_serpent)
     """
-    def voisins_possibles(l_arene, position):
+    def voisins_possibles(l_arene, position,dico_info):
         """Renvoie les directions possibles autour des coordonées sous la forme d'une liste de tuples
 
         Args:
@@ -266,7 +286,7 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple):
         Returns:
             list: liste de tuples de coordonées -> [(x,y),(x,z),...]
         """        
-        res = directions_possibles(l_arene, position)
+        res = directions_possibles(l_arene, position,dico_info)
         voisins = res["coordonnees"]
         return voisins
     file_position = [(position_serpent, [position_serpent])]  # méthode de séquence file
@@ -277,7 +297,7 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple):
         position, chemin = file_position.pop(0)  # je retire le premier élément de la file et le mets dans position
         if position == position_bonus:
             return chemin
-        for voisin in voisins_possibles(l_arene, position):
+        for voisin in voisins_possibles(l_arene, position,dico_info):
             if voisin not in deja_visite:
                 deja_visite.add(voisin)
                 file_position.append((voisin, chemin + [voisin]))  
@@ -317,16 +337,16 @@ def mon_IA(num_joueur:int, la_partie:dict)->str:
         information["num_joueur"] = num_joueur
         information["arene"] = l_arene
         information["point"] = dico_serpent["points"]
-        information["objets_voisins"] = objets_voisinage(l_arene, information["num_joueur"], dist_max)
         information["positions"] = arene.get_serpent(l_arene,information["num_joueur"])
+        information["objets_voisins"] = objets_voisinage(l_arene, information["num_joueur"], dist_max,information)
         return information
     dico_info = information(la_partie,30,num_joueur)
     direction=random.choice("NSEO")
     direction_prec=direction #La décision prise sera la direction précédente le prochain tour
     l_arene = partie.get_arene(la_partie)
-    dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"]
-    print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]))["direction"])
-    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,dist_max=40))
+    dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"]
+    print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"])
+    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,40,dico_info))
     if dir_pos=='':
         direction=random.choice('NOSE')
     else:
