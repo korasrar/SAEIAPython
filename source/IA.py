@@ -33,6 +33,14 @@ def est_pas_sortie(lgn_tete, col_tete, lgn_are, col_are, direction):
             return True
     return False
 
+def est_pas_serpent(direction, dico_info):
+    lgn = dico_info["positions"][0][0]
+    col = dico_info["positions"][0][1]
+    direc_pos = (lgn +  arene.DIRECTIONS[direction][0] , col +  arene.DIRECTIONS[direction][1])
+    if not direc_pos in dico_info["positions"]:
+        return True
+    return False
+
 def directions_possibles(l_arene:dict,coordonnees:tuple, dico_info)->dict:
     """Indique les directions possible pour le joueur num_joueur
         c'est à dire les directions qu'il peut prendre sans se cogner dans
@@ -76,14 +84,6 @@ def directions_possibles(l_arene:dict,coordonnees:tuple, dico_info)->dict:
                     print("je suis serpent")
     res = dico_finale(res, tete_lgn, tete_col)
     return res
-    
-def est_pas_serpent(direction, dico_info):
-    lgn = dico_info["positions"][0][0]
-    col = dico_info["positions"][0][1]
-    direc_pos = (lgn +  arene.DIRECTIONS[direction][0] , col +  arene.DIRECTIONS[direction][1])
-    if not direc_pos in dico_info["positions"]:
-        return True
-    return False
 
 
 def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int,dico_info:dict):
@@ -136,21 +136,15 @@ def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int,dico_info:dict):
     return create_dico_bonus(l_arene,set_position_bonus)
 
 
-# verif serpent
-
-# ---------------------------------------------------------------------------
-
-#{keys: valeur_bonus valeur: coordonnees}:
-
 def avancer_tour(la_partie:dict,dico_info:dict):
-    """_summary_
+    """Fonction principale qui retourna la direction choisie après le scan de l'arène
 
     Args:
-        la_partie (dict): _description_
-        dico_info (dict): _description_
+        la_partie (dict): dico de la partie
+        dico_info (dict): dico avec les informations importantes
 
     Returns:
-        _type_: _description_
+        str: direction choisie
     """   
     score_tete = arene.get_val_boite(dico_info["arene"],dico_info["positions"][0][0],dico_info["positions"][0][1]) 
     temps_restant = partie.get_temps_restant(la_partie)
@@ -191,6 +185,7 @@ def prio_strategie_1(l_arene:dict, num_joueur:int,dico_info:dict ): #ordre de pr
     Args:
         l_arene (dict): dico de l'arene
         num_joueur (int): numéro du joueur
+        dico_info (dict): dico informations
 
     Returns:
         list: ordre des bonus à aller chercher dans l'ordre d'importance   
@@ -214,7 +209,6 @@ def prio_strategie_1(l_arene:dict, num_joueur:int,dico_info:dict ): #ordre de pr
 
     Returns:
         list: ordre des bonus à aller chercher dans l'ordre d'importance   
-      
     ordre = []
     ordre.append(2,-2,-1,1)
     return ordre"""    
@@ -304,11 +298,6 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple,d
                 file_position.append((voisin, chemin + [voisin]))  
     return []
 
-"""
-postion_bonus
-
-"""
-
 # ---------------------------------------------------------------------------
 
 def mon_IA2(num_joueur:int, la_partie:dict)->str:
@@ -341,19 +330,16 @@ def mon_IA(num_joueur:int, la_partie:dict)->str:
         information["positions"] = arene.get_serpent(l_arene,information["num_joueur"])
         information["objets_voisins"] = objets_voisinage(l_arene, information["num_joueur"], dist_max,information)
         return information
-    dico_info = information(la_partie,&à,num_joueur)
+    dico_info = information(la_partie,10,num_joueur)
     direction=random.choice("NSEO")
     direction_prec=direction #La décision prise sera la direction précédente le prochain tour
     l_arene = partie.get_arene(la_partie)
     dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"]
     print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"])
     print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,10,dico_info))
-    if dir_pos=='':
-        direction=random.choice('NOSE')
-    else:
-        direction=avancer_tour(la_partie,dico_info)
-        if direction == None :
-            direction=random.choice(dir_pos)
+    direction=avancer_tour(la_partie,dico_info)
+    if direction == None :
+        direction=random.choice(dir_pos)
     return direction
 
 if __name__=="__main__":
