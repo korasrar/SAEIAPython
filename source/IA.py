@@ -23,11 +23,31 @@ direction_prec='X' # variable indiquant la décision précédente prise par le j
 ####################################################################
 
 def est_pas_mur(l_arene, lgn, col, direction):
+    """" Vérifie si la case suivante n'est pas un mur
+    Args:
+        l_arene (dict): dictionnaire de l'arène
+        lgn (int): ligne actuelle
+        col (int): colonne actuelle
+        direction (str): direction choisie
+    returns:
+        bool: True si la case suivante n'est pas un mur , False sinon
+    """
     if not arene.est_mur(l_arene, lgn + arene.DIRECTIONS[direction][0], col + arene.DIRECTIONS[direction][1]):
         return True
     return False
 
 def est_pas_sortie(lgn_tete, col_tete, lgn_are, col_are, direction):
+    """ Vérifie si la case suivante n'est pas une sortie
+    Args:
+        lgn_tete (int): ligne actuelle
+        col_tete (int): colonne actuelle
+        lgn_are (int): ligne de l'arène
+        col_are (int): colonne de l'arène
+        direction (str): direction choisie
+    returns:
+        bool: True si la case suivante n'est pas une sortie , False sinon
+    """
+    
     if lgn_tete + arene.DIRECTIONS[direction][0] > 0 and lgn_tete + arene.DIRECTIONS[direction][0] < lgn_are:
         if col_tete + arene.DIRECTIONS[direction][1] > 0 and col_tete + arene.DIRECTIONS[direction][1] < col_are:
             return True
@@ -37,7 +57,7 @@ def est_pas_serpent(direction, dico_info):
     lgn = dico_info["positions"][0][0]
     col = dico_info["positions"][0][1]
     direc_pos = (lgn +  arene.DIRECTIONS[direction][0] , col +  arene.DIRECTIONS[direction][1])
-    if not direc_pos in dico_info["positions"]:
+    if not direc_pos in dico_info["positions"] or arene:
         return True
     return False
 
@@ -78,10 +98,8 @@ def directions_possibles(l_arene:dict,coordonnees:tuple, dico_info)->dict:
     for direction in arene.DIRECTIONS:
         if est_pas_sortie(tete_lgn, tete_col,lgn,col,direction):
             if est_pas_mur(l_arene, tete_lgn, tete_col, direction):
-                if est_pas_serpent(direction, dico_info):
-                    res += direction
-                else:
-                    print("je suis serpent")
+                #if est_pas_serpent(direction, dico_info):
+                res += direction
     res = dico_finale(res, tete_lgn, tete_col)
     return res
 
@@ -287,15 +305,15 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple,d
     file_position = [(position_serpent, [position_serpent])]  # méthode de séquence file
     deja_visite = set()
     deja_visite.add(tuple(position_serpent))
-
     while file_position:
         position, chemin = file_position.pop(0)  # je retire le premier élément de la file et le mets dans position
         if position == position_bonus:
             return chemin
         for voisin in voisins_possibles(l_arene, position,dico_info):
             if voisin not in deja_visite:
-                deja_visite.add(voisin)
-                file_position.append((voisin, chemin + [voisin]))  
+                if voisin != dico_info["positions"][-1]:
+                    deja_visite.add(voisin)
+                    file_position.append((voisin, chemin + [voisin]))  
     return []
 
 # ---------------------------------------------------------------------------
