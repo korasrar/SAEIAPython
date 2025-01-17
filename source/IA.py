@@ -241,6 +241,7 @@ def strategie_1(dico_info:dict):
                     return find_direction(dico_info["objets_voisins"][prio],dico_info)
                 else:
                     return find_direction(chemin_prio[0],dico_info)
+            # est_ateignable retour rien
 
 
 """def strategie_2(chemin_prio):
@@ -340,13 +341,13 @@ def mon_IA(num_joueur:int, la_partie:dict)->str:
         information["positions"] = arene.get_serpent(l_arene,information["num_joueur"])
         information["objets_voisins"] = objets_voisinage(l_arene, information["num_joueur"], dist_max,information)
         return information
-    dico_info = information(la_partie,30,num_joueur)
+    dico_info = information(la_partie,&à,num_joueur)
     direction=random.choice("NSEO")
     direction_prec=direction #La décision prise sera la direction précédente le prochain tour
     l_arene = partie.get_arene(la_partie)
     dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"]
     print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"])
-    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,40,dico_info))
+    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,10,dico_info))
     if dir_pos=='':
         direction=random.choice('NOSE')
     else:
