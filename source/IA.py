@@ -98,7 +98,6 @@ def directions_possibles(l_arene:dict,coordonnees:tuple, dico_info)->dict:
     for direction in arene.DIRECTIONS:
         if est_pas_sortie(tete_lgn, tete_col,lgn,col,direction):
             if est_pas_mur(l_arene, tete_lgn, tete_col, direction):
-                #if est_pas_serpent(direction, dico_info):
                 res += direction
     res = dico_finale(res, tete_lgn, tete_col)
     return res
@@ -148,7 +147,7 @@ def objets_voisinage(l_arene:dict,num_joueur:int,dist_max:int,dico_info:dict):
         set_future_voisins = set_voisin_temp
         set_position_voisin|=set_voisin_temp
     for bonus in set_position_voisin:
-            if arene.est_bonus(l_arene,bonus[0],bonus[1]) or arene.get_val_boite(l_arene,bonus[0],bonus[1]) > 0 and arene.get_proprietaire(l_arene,bonus[0],bonus[1]) != num_joueur: 
+            if arene.est_bonus(l_arene,bonus[0],bonus[1]) or arene.get_val_boite(l_arene,bonus[0],bonus[1]) > 0 and arene.get_proprietaire(l_arene,bonus[0],bonus[1]) == 0: 
                 set_position_bonus.add(bonus)
     set_position_voisin = set()
     return create_dico_bonus(l_arene,set_position_bonus)
@@ -188,13 +187,10 @@ def est_ateignable(pos_bonus:tuple,dico_info:dict,chemin_bonus:list):
     Returns:
         bool: True si atteignable, False sinon
     """    
-    #temps de vie restant 
     temps_restant_case_bonus = dico_info["arene"]["matrice"]["valeurs"][pos_bonus]["temps_restant"]
     if len(chemin_bonus) < temps_restant_case_bonus:
         return True
     return False
-    #maybe serpent autour
-    #objet qu'on veut pas prendre 
     
 
 def prio_strategie_1(l_arene:dict, num_joueur:int,dico_info:dict ): #ordre de prise des bonus pour les 50 premier tours
@@ -242,7 +238,6 @@ def strategie_1(dico_info:dict):
         str: La direction a prendre pour le serpent
     """    
     prio_ordre = prio_strategie_1(dico_info["arene"],dico_info["num_joueur"],dico_info)
-    #chemin_prio = dico_info["objets_voisins"][prio_ordre][0]
     object_choisie = 0
     for prio in prio_ordre:
         if prio in dico_info["objets_voisins"]:
@@ -253,7 +248,6 @@ def strategie_1(dico_info:dict):
                     return find_direction(dico_info["objets_voisins"][prio],dico_info)
                 else:
                     return find_direction(chemin_prio[0],dico_info)
-            # est_ateignable retour rien
 
 
 """def strategie_2(chemin_prio):
@@ -311,10 +305,10 @@ def fabrique_chemin(l_arene:dict, position_serpent:tuple, position_bonus:tuple,d
             return chemin
         for voisin in voisins_possibles(l_arene, position,dico_info):
             if voisin not in deja_visite:
-                if voisin != dico_info["positions"][-1]:
+                if voisin != dico_info["positions"][-1] or chemin == position:
                     deja_visite.add(voisin)
                     file_position.append((voisin, chemin + [voisin]))  
-    return []
+    return [dico_info["positions"][-1]]
 
 # ---------------------------------------------------------------------------
 
@@ -353,11 +347,12 @@ def mon_IA(num_joueur:int, la_partie:dict)->str:
     direction_prec=direction #La décision prise sera la direction précédente le prochain tour
     l_arene = partie.get_arene(la_partie)
     dir_pos=directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"]
-    print(directions_possibles(l_arene,(arene.get_serpent(l_arene,num_joueur)[0][0],arene.get_serpent(l_arene,num_joueur)[0][1]),dico_info)["direction"])
-    print("les bonus: ",num_joueur,objets_voisinage(partie.get_arene(la_partie),num_joueur,10,dico_info))
     direction=avancer_tour(la_partie,dico_info)
     if direction == None :
-        direction=random.choice(dir_pos)
+        if dir_pos != '':
+            direction=random.choice(dir_pos)
+        else:
+            direction=random.choice("NSEO")
     return direction
 
 if __name__=="__main__":
